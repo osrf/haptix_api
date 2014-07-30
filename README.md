@@ -10,6 +10,7 @@ fields specifying the actual size of the arrays for a given model.
 The latter should perhaps be stored in a separate Info struct.
 Something like:
 
+```
 struct hxInfo
 {
 	int njnt;
@@ -29,6 +30,7 @@ struct hxState
 	double obj_angvel[OBJ_MAX][3];
 	// other state variables
 };
+```
 
 By "object" (obj) I mean a root body in the kinematic tree.
 There is always one such body corresponding to the base of the
