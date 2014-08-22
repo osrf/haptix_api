@@ -87,8 +87,8 @@ struct _hxCommand
     float ref_pos[hxMAXMOTOR];              // reference positions
     float ref_vel[hxMAXMOTOR];              // reference velocities
 
-    float gain_pos[hxMAXMOTOR];             // position feedback p-gains
-    float gain_vel[hxMAXMOTOR];             // velocity feedback p-gains
+    float gain_pos[hxMAXMOTOR];             // position feedback gains
+    float gain_vel[hxMAXMOTOR];             // velocity feedback gains
 
     // Do the robots accept any other commands?
 };
