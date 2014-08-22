@@ -86,7 +86,6 @@ struct _hxCommand
     // PD controller data
     float ref_pos[hxMAXMOTOR];              // reference positions
     float ref_vel[hxMAXMOTOR];              // reference velocities
-
     float gain_pos[hxMAXMOTOR];             // position feedback gains
     float gain_vel[hxMAXMOTOR];             // velocity feedback gains
 
