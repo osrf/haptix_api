@@ -83,35 +83,35 @@ typedef struct _hxContact hxContact;
 //-------------------------------- API functions ----------------------------------------
 
 // get sim info
-hxResult hx_getsiminfo(int target, hxSimInfo* siminfo);
+hxResult hx_sim_getinfo(int target, hxSimInfo* siminfo);
 
 
 // get information about bodies
-hxResult hx_getbody(int target, hxBody* body);
+hxResult hx_sim_getbody(int target, hxBody* body);
 
 
 // get information about joints
-hxResult hx_getjoint(int target, hxJoint* joint);
+hxResult hx_sim_getjoint(int target, hxJoint* joint);
 
 
 // get information about active contacts
-hxResult hx_getcontact(int target, hxContact* contact);
+hxResult hx_sim_getcontact(int target, hxContact* contact);
 
 
 // get Jacobian of global point attached to robot link (index between 1 and njoint-1)
 //  size of Jacobian matrix is 3-by-njoint, in row-major format
-hxResult hx_getjacobian(int target, int link, const float* point, float* jacobian);
+hxResult hx_sim_getjacobian(int target, int link, const float* point, float* jacobian);
 
 
 // set simulation state (position and velocity) as follows:
 //   the robot base and objects are set from hxBody
 //   the robot links are set from hxJoint via forward kinematics
 //   the robot link data in hxBody, and all acceleration and torque data are ignored
-hxResult hx_setstate(int target, const hxBody* body, const hxJoint* joint);
+hxResult hx_sim_setstate(int target, const hxBody* body, const hxJoint* joint);
 
 
 // synchronous update with direct torque control:
 //   1. set joint torques ignoring actuator model
 //   2. advance simulation state, sleep for remainder of update step only if requested
 //   3. return simulated sensor data
-hxResult hx_updatedirect(int target, const float* torque, hxSensor* sensor, int flg_sleep);
+hxResult hx_sim_updatedirect(int target, const float* torque, hxSensor* sensor, int flg_sleep);

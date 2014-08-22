@@ -67,6 +67,8 @@ struct _hxSensor
     float motor_torque[hxMAXMOTOR];         // torque applied by embedded controller (Nm)
 
     // joint data
+    // Question: how is this expected to be used?
+    // Question: having both motor + joint could potentially violate transmission?
     float joint_pos[hxMAXJOINT];            // joint position (rad)
     float joint_vel[hxMAXJOINT];            // joint velocity (rad/s)
 
@@ -76,6 +78,7 @@ struct _hxSensor
     // IMU data
     float IMU_linacc[hxMAXIMU][3];          // 3D linear acceleration (m/s^2)
     float IMU_angvel[hxMAXIMU][3];          // 3D angular velocity (rad/s)
+    float IMU_orientation[hxMAXIMU][4];     // 3D orientation quaternion
 };
 
 
@@ -85,8 +88,13 @@ struct _hxCommand
     // PD controller data
     float ref_pos[hxMAXMOTOR];              // reference positions
     float ref_vel[hxMAXMOTOR];              // reference velocities
-    float gain_pos[hxMAXMOTOR];             // position feedback gains
-    float gain_vel[hxMAXMOTOR];             // velocity feedback gains
+
+    float gain_pos_p[hxMAXMOTOR];           // position feedback p-gains
+    float gain_pos_i[hxMAXMOTOR];           // position feedback i-gains
+    float gain_pos_d[hxMAXMOTOR];           // position feedback d-gains
+    float gain_pos_imax[hxMAXMOTOR];        // position feedback i-max
+    float gain_pos_imin[hxMAXMOTOR];        // position feedback i-min
+    float gain_vel_p[hxMAXMOTOR];           // velocity feedback p-gains
 
     // Do the robots accept any other commands?
 };
