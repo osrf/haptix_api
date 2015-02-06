@@ -52,10 +52,8 @@ typedef enum
 {
   /// success
   hxOK = 0,
-  /// a bad thing
-  hxBAD,
-  /// another bad thing
-  hxHORRIBLE
+  /// failure
+  hxERROR
 } hxResult;
 
 /// \brief Communication targets.
