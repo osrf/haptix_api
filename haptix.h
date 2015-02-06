@@ -21,27 +21,27 @@ extern "C" {
 /// \brief Maximum number of motors.
 /// Defines the maximum number of motors across any particular device.
 /// It is used when allocating sensor and command objects related to the motors.
-/// The number of motors for a particular device is defined in #_hxDeviceInfo.
+/// The number of motors for a particular device is defined in #_hxRobotInfo.
 #define hxMAXMOTOR              32
 
 /// \brief Maximum number of joints.
 /// Defines the maximum number of joints across any particular device.
 /// It is used when allocating sensor properties related to the joints.
-/// number of joints for a particular device is defined in #_hxDeviceInfo.
+/// number of joints for a particular device is defined in #_hxRobotInfo.
 #define hxMAXJOINT              32
 
 /// \brief Maximum number of contact sensors.
 /// Defines the maximum number of contact sensors across any particular device.
 /// It is used when allocating an hxSensor.contact object.
 /// The number of contact sensors for a particular device is defined in
-/// #_hxDeviceInfo.
+/// #_hxRobotInfo.
 #define hxMAXCONTACTSENSOR      32
 
 /// \brief Maximum number of IMUs.
 /// Defines the maximum number of inertial measurement units across any
 /// particular device.
 /// It is used when allocating sensor objects related to IMUs.
-/// The number of IMUs for a particular device is defined in #_hxDeviceInfo.
+/// The number of IMUs for a particular device is defined in #_hxRobotInfo.
 #define hxMAXIMU                32
 
 /// \brief API return codes.
@@ -91,8 +91,8 @@ struct _hxTime
 /// example, the number of joints in the robot arm).
 ///
 /// It can be retrieved from a communication target by calling
-/// hx_getdeviceinfo(int, hxDeviceInfo*).
-struct _hxDeviceInfo
+/// hx_getrobotinfo(int, hxRobotInfo*).
+struct _hxRobotInfo
 {
   /// \brief Number of motors.
   /// Motors are commanded through filling an hxCommand struct and calling
@@ -127,7 +127,14 @@ struct _hxDeviceInfo
   /// device, where m is the maximum number of motors. Each 1x2 row of the array
   /// corresponds to a motor. The first entry in the row is the lower limit
   /// of the motor. The second entry is the upper limit of the motor.
-  float limit[hxMAXMOTOR][2];
+  float motorlimit[hxMAXMOTOR][2];
+
+  /// \brief Minimum and maximum joint angles (rad).
+  /// An n by 2 array representing the angular limits of each joint in the
+  /// device, where n is the maximum number of joints. Each 1x2 row of the array
+  /// corresponds to a joint. The first entry in the row is the lower limit
+  /// of the joint. The second entry is the upper limit of the joint.
+  float motorlimit[hxMAXJOINT][2];
 
   /// \brief Hz rate at which the device will update.
   float updateRate;
@@ -141,19 +148,23 @@ struct _hxDeviceInfo
 /// hx_update(int, const hxCommand*, hxSensor*, hxTime*).
 struct _hxSensor
 {
+  /// \brief Timestamp.
+  /// The time at which the sensor reading was taken. See #hxTime for data format.
+  hxTime timestamp;
+
   /// \brief Motor position (rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the angular positions for each motor.
+  /// hxRobotInfo::nmotors-1 contain the angular positions for each motor.
   /// The ordering of these motor values is consistent across the different
   /// motor-related properties of #hxSensor.
   ///
   /// These values cannot exceed the minimum and maximum values specified in
-  /// hxDeviceInfo::limit.
+  /// hxRobotInfo::limit.
   float motor_pos[hxMAXMOTOR];
 
   /// \brief Motor velocity (rad/s).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the angular velocity for
+  /// hxRobotInfo::nmotors-1 contain the angular velocity for
   /// each motor. The ordering of
   /// these motor values is consistent across the different motor-related
   /// properties of hxSensor.
@@ -161,7 +172,7 @@ struct _hxSensor
 
   /// \brief Torque applied by embedded controller (Nm).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the torque for each motor.
+  /// hxRobotInfo::nmotors-1 contain the torque for each motor.
   /// The ordering of
   /// these motor values is consistent across the different motor-related
   /// properties of #hxSensor.
@@ -169,14 +180,14 @@ struct _hxSensor
 
   /// \brief Joint position (rad).
   /// An array of floats of size #hxMAXJOINT. Entries 0 through
-  /// hxDeviceInfo::njoint-1 contain the angular position for each joint.
+  /// hxRobotInfo::njoint-1 contain the angular position for each joint.
   /// The ordering of these joint values is consistent with
   /// hxSensor::joint_vel.
   float joint_pos[hxMAXJOINT];
 
   /// \brief Joint velocity (rad/s).
   /// An array of floats of size #hxMAXJOINT.
-  /// Entries 0 through hxDeviceInfo::njoint-1 contain the angular position
+  /// Entries 0 through hxRobotInfo::njoint-1 contain the angular position
   /// for each joint.
   /// The ordering of these joint values is consistent with
   /// hxSensor::joint_pos.
@@ -184,7 +195,7 @@ struct _hxSensor
 
   /// \brief Contact normal force (N).
   /// An array of floats of size #hxMAXCONTACTSENSOR. Entries 0 through
-  /// hxDeviceInfo::ncontactsensor contain the contact magnitude for each
+  /// hxRobotInfo::ncontactsensor contain the contact magnitude for each
   /// contact sensor.
   float contact[hxMAXCONTACTSENSOR];
 
@@ -192,7 +203,7 @@ struct _hxSensor
   /// An array of floats of size #hxMAXIMUx3 where each row is a 3-dimensional
   /// linear acceleration vector. The entries of each row are measured in
   /// meters per second squared and ordered (x, y, z).
-  /// Entries 0 through hxDeviceInfo::nimu-1 contain the acceleration vectors
+  /// Entries 0 through hxRobotInfo::nimu-1 contain the acceleration vectors
   /// for each IMU.\n
   /// The ordering of these IMU values is consistent with hxSensor::IMU_angvel.
   float IMU_linacc[hxMAXIMU][3];
@@ -201,7 +212,7 @@ struct _hxSensor
   /// An array of floats of size #hxMAXIMUx3 where each row is a 3-dimensional
   /// angular velocity vector. The entries of each row are measured in
   /// radians per second and ordered (x, y, z).
-  /// Entries 0 through hxDeviceInfo::nimu-1 contain the velocity vectors
+  /// Entries 0 through hxRobotInfo::nimu-1 contain the velocity vectors
   /// for each IMU.
   ///
   /// The ordering of these IMU values is consistent with hxSensor::IMU_linacc.
@@ -217,30 +228,30 @@ struct _hxSensor
 struct _hxCommand
 {
   /// \brief Timestamp.
-  /// This field is not used.
+  /// The time at which the command was sent. See #hxTime for data format.
   hxTime timestamp;
 
   /// \brief Target reference positions (rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the desired angular positions for each
+  /// hxRobotInfo::nmotors-1 contain the desired angular positions for each
   /// motor.
   float ref_pos[hxMAXMOTOR];
 
   /// \brief Target reference velocities (rad/s).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the desired angular velocities for each
+  /// hxRobotInfo::nmotors-1 contain the desired angular velocities for each
   /// motor.
   float ref_vel[hxMAXMOTOR];
 
   /// \brief Target position feedback gains.
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the position gain that will be
+  /// hxRobotInfo::nmotors-1 contain the position gain that will be
   /// applied during the update phase of the model controller.
   float gain_pos[hxMAXMOTOR];
 
   /// \brief Target velocity feedback gains.
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
-  /// hxDeviceInfo::nmotors-1 contain the velocity gain that will be
+  /// hxRobotInfo::nmotors-1 contain the velocity gain that will be
   /// applied during the update phase of the model controller.
   float gain_vel[hxMAXMOTOR];
 };
@@ -249,9 +260,9 @@ struct _hxCommand
 /// \brief Time representation.
 typedef struct _hxTime hxTime;
 
-/// \def hxDeviceInfo
+/// \def hxRobotInfo
 /// \brief Robot information.
-typedef struct _hxDeviceInfo hxDeviceInfo;
+typedef struct _hxRobotInfo hxRobotInfo;
 
 /// \def hxSensor
 /// \brief Sensor data.
@@ -261,7 +272,7 @@ typedef struct _hxSensor hxSensor;
 /// \brief Motor commands.
 typedef struct _hxCommand hxCommand;
 
-//-------------------------------- API functions ----------------------------------------
+//------------------------------- API functions -------------------------------
 
 /// \brief Connect to specified device/simulator target.
 /// Multiple calls to this function are allowed with different targets.
@@ -289,11 +300,11 @@ hxResult hx_close(int _target);
 /// \brief Get information for a specified device/simulator target.
 /// \param[in] _target Requested device. The valid targets are defined in
 /// #hxTarget.
-/// \param[out] _deviceInfo Device information requested. See #_hxDeviceInfo
+/// \param[out] _deviceInfo Device information requested. See #_hxRobotInfo
 /// for a list of available fields.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_getdeviceinfo(int _target,
-                          hxDeviceInfo *_deviceinfo);
+hxResult hx_getrobotinfo(int _target,
+                          hxRobotInfo *_deviceinfo);
 
 /// \brief Asynchronous command update at the rate supported by the device:
 ///   1. Set the new motor command.
