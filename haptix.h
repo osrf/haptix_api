@@ -197,9 +197,12 @@ struct _hxSensor
   /// contact sensor.
   float contact[hxMAXCONTACTSENSOR];
 
-  /// \brief 3D linear acceleration (m/s^2).
+  /// \brief 3D accelerometer output (m/s^2).
   /// An array of floats of size #hxMAXIMUx3 where each row is a 3-dimensional
-  /// linear acceleration vector. The entries of each row are measured in
+  /// vector of accelerometer output, which comprises the vector difference
+  /// (a-g), where a is the linear acceleration and g is the gravity vector.
+  /// This measurement is expressed in a body-fixed frame.
+  /// The entries of each row are measured in
   /// meters per second squared and ordered (x, y, z).
   /// Entries 0 through hxRobotInfo::nimu-1 contain the acceleration vectors
   /// for each IMU.\n
@@ -208,16 +211,15 @@ struct _hxSensor
 
   /// \brief 3D angular velocity (rad/s).
   /// An array of floats of size #hxMAXIMUx3 where each row is a 3-dimensional
-  /// angular velocity vector. The entries of each row are measured in
+  /// angular velocity vector.
+  /// This measurement is expressed in a body-fixed frame.
+  /// The entries of each row are measured in
   /// radians per second and ordered (x, y, z).
   /// Entries 0 through hxRobotInfo::nimu-1 contain the velocity vectors
   /// for each IMU.
   ///
   /// The ordering of these IMU values is consistent with hxSensor::IMU_linacc.
   float IMU_angvel[hxMAXIMU][3];
-
-   /// \brief 3D orientation quaternion
-   float IMU_orientation[hxMAXIMU][4];
 };
 
 /// \brief Motor command data.
@@ -240,13 +242,13 @@ struct _hxCommand
   /// motor.
   float ref_vel[hxMAXMOTOR];
 
-  /// \brief Target position feedback gains.
+  /// \brief Target position feedback gains (Nm/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the position gain that will be
   /// applied during the update phase of the model controller.
   float gain_pos[hxMAXMOTOR];
 
-  /// \brief Target velocity feedback gains.
+  /// \brief Target velocity feedback gains (Nms/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the velocity gain that will be
   /// applied during the update phase of the model controller.
