@@ -9,8 +9,8 @@
 /// \file haptix.h
 /// \brief Structures and functions for the primary HAPTIX API.
 
-#ifndef __HAPTIX_COMM_HAPTIX_H__
-#define __HAPTIX_COMM_HAPTIX_H__
+#ifndef __HAPTIX_API_HAPTIX_H__
+#define __HAPTIX_API_HAPTIX_H__
 
 #ifdef __cplusplus
 extern "C" {
