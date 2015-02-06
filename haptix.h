@@ -76,6 +76,7 @@ struct _hxSensor
     // IMU data
     float IMU_linacc[hxMAXIMU][3];          // 3D linear acceleration (m/s^2)
     float IMU_angvel[hxMAXIMU][3];          // 3D angular velocity (rad/s)
+    float IMU_orientation[hxMAXIMU][4];     // 3D orientation quaternion
 };
 
 
