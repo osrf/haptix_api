@@ -16,7 +16,7 @@
 extern "C" {
 #endif
 
-//-------------------------------- constants --------------------------------------------
+//-------------------------------- constants ----------------------------------
 
 /// \brief Maximum number of motors.
 /// Defines the maximum number of motors across any particular device.
@@ -73,7 +73,7 @@ typedef enum
   hxMUJOCO
 } hxTarget;
 
-//-------------------------------- data structures --------------------------------------
+//-------------------------------- data structures -----------------------------
 
 /// \brief A representation of time
 struct _hxTime
@@ -149,7 +149,7 @@ struct _hxRobotInfo
 struct _hxSensor
 {
   /// \brief Timestamp.
-  /// The time at which the sensor reading was taken. See #hxTime for data format.
+  /// Time at which the sensor reading was taken. See #hxTime for data format.
   hxTime timestamp;
 
   /// \brief Motor position (rad).
