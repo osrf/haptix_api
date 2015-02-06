@@ -206,6 +206,9 @@ struct _hxSensor
   ///
   /// The ordering of these IMU values is consistent with hxSensor::IMU_linacc.
   float IMU_angvel[hxMAXIMU][3];
+
+   /// \brief 3D orientation quaternion
+   float IMU_orientation[hxMAXIMU][4];
 };
 
 /// \brief Motor command data.
