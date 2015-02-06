@@ -230,10 +230,6 @@ struct _hxSensor
 /// hx_update(int, const hxCommand*, hxSensor*, hxTime*).
 struct _hxCommand
 {
-  /// \brief Timestamp.
-  /// The time at which the command was sent. See #hxTime for data format.
-  hxTime timestamp;
-
   /// \brief Target reference positions (rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the desired angular positions for each
@@ -284,16 +280,22 @@ typedef struct _hxCommand hxCommand;
 /// compatibility with other simulators.
 /// \param[in] _target Device to be connected. The valid targets are defined in
 /// #hxTarget.
-/// \param[in] _host When connecting to a simulator, use _host to specify
-/// the machine that is running the simulator. The default value is blank,
-/// which indicates that automatic detection of the robot/simulator
-/// should be attempted.
-/// \param[in] _port When connecting to a simulator, use _port to specify
-/// what port the simulator is running on. This may be used in conjunction
-/// with the _host paramter. Leave undefined of zero for automatic
-/// detection.
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
-hxResult hx_connect(int _target, const char *_host = "", int _port = 0);
+hxResult hx_connect(int _target);
+
+/// \brief Connect to specified robot/simulator target.
+/// Multiple calls to this function are allowed with different targets.
+///
+/// This function is not needed for use with Gazebo but added for code
+/// compatibility with other simulators.
+/// \param[in] _target Device to be connected. The valid targets are defined in
+/// #hxTarget.
+/// \param[in] _host When connecting to a simulator, use _host to specify
+/// the machine that is running the simulator.
+/// \param[in] _port When connecting to a simulator, use _port to specify
+/// what port the simulator is running on.
+/// \return 'hxOK' if the connection succeed or an error code otherwise.
+hxResult hx_connect(int _target, const char *_host, int _port);
 
 /// \brief Close connection to specified robot/simulator target.
 ///
@@ -321,12 +323,10 @@ hxResult hx_robotinfo(int _target, hxRobotInfo *_robotinfo);
 /// description of fields contained in a command request.
 /// \param[out] _sensor Sensor data received after the update. See #_hxSensor
 /// for the full description of fields contained the state response.
-/// \param[out] _timestamp The timestamp associated with the sensor data.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
 hxResult hx_update(int _target,
                    const hxCommand *_command,
-                   hxSensor *_sensor,
-                   hxTime *_timestamp);
+                   hxSensor *_sensor);
 
 /// \brief Synchronous read-only update supported by the robot.
 /// Advances simulation state and sleep for remainder of update step,
@@ -334,9 +334,8 @@ hxResult hx_update(int _target,
 /// Return sensor data.
 /// \param[in] _target Device to update.
 /// \param[out] _sensor Sensor data received after the update.
-/// \param[out] _timestamp The timestamp associated with the sensor data.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_readsensors(int _target, hxSensor *_sensor, hxTime *_timestamp);
+hxResult hx_readsensors(int _target, hxSensor *_sensor);
 
 /// \brief Return a string that describes the last result.
 /// \sa hxResult.
