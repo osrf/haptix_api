@@ -127,14 +127,14 @@ struct _hxRobotInfo
   /// device, where m is the maximum number of motors. Each 1x2 row of the array
   /// corresponds to a motor. The first entry in the row is the lower limit
   /// of the motor. The second entry is the upper limit of the motor.
-  float motorlimit[hxMAXMOTOR][2];
+  float motorlimits[hxMAXMOTOR][2];
 
   /// \brief Minimum and maximum joint angles (rad).
   /// An n by 2 array representing the angular limits of each joint in the
   /// device, where n is the maximum number of joints. Each 1x2 row of the array
   /// corresponds to a joint. The first entry in the row is the lower limit
   /// of the joint. The second entry is the upper limit of the joint.
-  float motorlimit[hxMAXJOINT][2];
+  float jointlimits[hxMAXJOINT][2];
 
   /// \brief Hz rate at which the device will update.
   float updateRate;
@@ -217,6 +217,9 @@ struct _hxSensor
   ///
   /// The ordering of these IMU values is consistent with hxSensor::IMU_linacc.
   float IMU_angvel[hxMAXIMU][3];
+
+   /// \brief 3D orientation quaternion
+   float IMU_orientation[hxMAXIMU][4];
 };
 
 /// \brief Motor command data.
@@ -282,9 +285,13 @@ typedef struct _hxCommand hxCommand;
 /// \param[in] _target Device to be connected. The valid targets are defined in
 /// #hxTarget.
 /// \param[in] _host When connecting to a simulator, use _host to specify
-/// the machine that is running the simulator.
+/// the machine that is running the simulator. The default value is blank,
+/// which indicates that automatic detection of the device/simulator
+/// should be attempted.
 /// \param[in] _port When connecting to a simulator, use _port to specify
-/// what port the simulator is running on.
+/// what port the simulator is running on. This may be used in conjunction
+/// with the _host paramter. Leave undefined of zero for automatic
+/// detection.
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
 hxResult hx_connect(int _target, const char *_host = "", int _port = 0);
 
@@ -329,6 +336,7 @@ hxResult hx_update(int _target,
 /// \param[in] _target Device to update.
 /// \param[out] _sensor Sensor data received after the update.
 /// \param[out] _timestamp The timestamp associated with the sensor data.
+/// \return 'hxOK' if the operation succeed or an error code otherwise.
 hxResult hx_readsensors(int _target, hxSensor *_sensor, hxTime *_timestamp);
 
 /// \brief Return a string that describes the last result.
