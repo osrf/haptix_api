@@ -338,9 +338,10 @@ hxResult hx_close(int _target);
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
 hxResult hx_robotinfo(int _target, hxRobotInfo *_robotinfo);
 
-/// \brief Asynchronous command update at the rate supported by the robot:
-///   1. Set the new motor command.
-///   2. Return simulated or physical sensor data.
+/// \brief A non-blocking function that sends a command to the robot and
+/// receives the latest sensor information. This function may be used as
+/// frequently as desired, but the robot is only guaranteed to update at
+/// a minimum of 50Hz.
 /// \param[in] _target Device to update. The valid targets are defined in
 /// #hxTarget.
 /// \param[in] _command New command to be sent. See #_hxCommand for the full
@@ -352,7 +353,10 @@ hxResult hx_update(int _target,
                    const hxCommand *_command,
                    hxSensor *_sensor);
 
-/// \brief Asynchronous read-only update supported by the robot.
+/// \brief Similar to hx_update, this function reads the latest sensor
+/// information from the robot in a non-blocking manner. This function
+/// may be called as often as desired, but the robot is only guaranteeed to
+/// update at a minimum of 50Hz.
 /// Return sensor data.
 /// \param[in] _target Device to update.
 /// \param[out] _sensor Sensor data received after the update.
