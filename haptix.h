@@ -249,11 +249,10 @@ struct _hxCommand
   /// \sa ref_pos_count
   float ref_pos[hxMAXMOTOR];
 
-  /// \brief Number of valid entries in ref_pos. This number will be
-  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// \brief A value <= 0 disables ref_pos, any other value enables
   /// ref_pos.
   /// \sa ref_pos
-  int ref_pos_count;
+  int ref_pos_enabled;
 
   /// \brief Target reference velocities (rad/s).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
@@ -262,11 +261,10 @@ struct _hxCommand
   /// \sa ref_vel_count
   float ref_vel[hxMAXMOTOR];
 
-  /// \brief Number of valid entries in ref_vel. This number will be
-  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// \brief A value <= 0 disables ref_vel, any other value enables
   /// ref_vel.
   /// \sa ref_vel
-  int ref_vel_count;
+  int ref_vel_enabled;
 
   /// \brief Target position feedback gains (Nm/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
@@ -275,11 +273,10 @@ struct _hxCommand
   /// \sa gain_pos_count
   float gain_pos[hxMAXMOTOR];
 
-  /// \brief Number of valid entries in gain_pos. This number will be
-  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// \brief A value <= 0 disables gain_pos, any other value enables
   /// gain_pos.
   /// \sa gain_pos
-  int gain_pos_count;
+  int gain_pos_enabled;
 
   /// \brief Target velocity feedback gains (Nms/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
@@ -288,11 +285,10 @@ struct _hxCommand
   /// \sa gain_vel_count
   float gain_vel[hxMAXMOTOR];
 
-  /// \brief Number of valid entries in gain_vel. This number will be
-  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// \brief A value <= 0 disables gain_vel, any other value enables
   /// gain_vel.
   /// \sa gain_vel
-  int gain_vel_count;
+  int gain_vel_enabled;
 };
 
 /// \def hxCommand
