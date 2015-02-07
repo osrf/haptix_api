@@ -84,6 +84,10 @@ struct _hxTime
   int nsec;
 };
 
+/// \def hxTime
+/// \brief Time representation.
+typedef struct _hxTime hxTime;
+
 /// \brief Device information.
 /// This data structure specifies inherent properties of the robot that
 /// do not change during simulation (for
@@ -95,7 +99,7 @@ struct _hxRobotInfo
 {
   /// \brief Number of motors.
   /// Motors are commanded through filling an hxCommand struct and calling
-  /// hx_update(int, const hxCommand*, hxSensor*, hxTime*).
+  /// hx_update(int, const hxCommand*, hxSensor*).
   ///
   /// The number of motors is less than or equal to the number of
   /// joints. For example, one motor may control several joints through
@@ -143,7 +147,7 @@ struct _hxRobotInfo
 /// This data structure specifies the sensor information gained in a simulation
 /// update.
 /// It is an output of the function
-/// hx_update(int, const hxCommand*, hxSensor*, hxTime*).
+/// hx_update(int, const hxCommand*, hxSensor*).
 struct _hxSensor
 {
   /// \brief Timestamp.
@@ -227,7 +231,7 @@ struct _hxSensor
 /// limb model.
 ///
 /// It is an input of the function
-/// hx_update(int, const hxCommand*, hxSensor*, hxTime*).
+/// hx_update(int, const hxCommand*, hxSensor*).
 struct _hxCommand
 {
   /// \brief Target reference positions (rad).
@@ -254,10 +258,6 @@ struct _hxCommand
   /// applied during the update phase of the model controller.
   float gain_vel[hxMAXMOTOR];
 };
-
-/// \def hxTime
-/// \brief Time representation.
-typedef struct _hxTime hxTime;
 
 /// \def hxRobotInfo
 /// \brief Robot information.
@@ -295,7 +295,7 @@ hxResult hx_connect(int _target);
 /// \param[in] _port When connecting to a simulator, use _port to specify
 /// what port the simulator is running on.
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
-hxResult hx_connect(int _target, const char *_host, int _port);
+hxResult hx_connect_host(int _target, const char *_host, int _port);
 
 /// \brief Close connection to specified robot/simulator target.
 ///
