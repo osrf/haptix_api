@@ -296,14 +296,6 @@ typedef struct _hxCommand hxCommand;
 
 // ---------- API functions ----------
 
-/// \brief Connect to specified robot/simulator target.
-/// Multiple calls to this function are allowed with different targets.
-///
-/// \param[in] _target Device to be connected. The valid targets are defined in
-/// #hxTarget.
-/// \return 'hxOK' if the connection succeed or an error code otherwise.
-hxResult hx_connect(int _target);
-
 /// \brief Connect to specified robot/simulator target. Use this function
 /// if you want to connect to a specific host and port.
 /// Multiple calls to this function are allowed with different targets.
@@ -311,16 +303,16 @@ hxResult hx_connect(int _target);
 /// \param[in] _target Device to be connected. The valid targets are defined in
 /// #hxTarget.
 /// \param[in] _host When connecting to a simulator, use _host to specify
-/// the machine that is running the simulator.
+/// the machine that is running the simulator. Use a value of NULL to
+/// perform automatic discovery.
 /// \param[in] _port When connecting to a simulator, use _port to specify
-/// what port the simulator is running on.
+/// what port the simulator is running on. If _host is NULL, then _port
+/// is ignored.
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
-hxResult hx_connect_host(int _target, const char *_host, int _port);
+hxResult hx_connect(int _target, const char *_host, int _port);
 
 /// \brief Close connection to specified robot/simulator target.
 ///
-/// This function is not needed for use with Gazebo but added for code
-/// compatibility with other simulators.
 /// \param[in] _target Device to be disconnected. The valid targets are defined
 /// in #hxTarget.
 /// \return 'hxOK' if the disconnection succeed or an error code otherwise.
