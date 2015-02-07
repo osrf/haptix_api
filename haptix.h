@@ -5,7 +5,6 @@
   available both in simulation and on physical robots.
 */
 
-#pragma once
 /// \file haptix.h
 /// \brief Structures and functions for the primary HAPTIX API.
 
