@@ -246,25 +246,53 @@ struct _hxCommand
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the desired angular positions for each
   /// motor.
+  /// \sa ref_pos_count
   float ref_pos[hxMAXMOTOR];
+
+  /// \brief Number of valid entries in ref_pos. This number will be
+  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// ref_pos.
+  /// \sa ref_pos
+  int ref_pos_count;
 
   /// \brief Target reference velocities (rad/s).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the desired angular velocities for each
   /// motor.
+  /// \sa ref_vel_count
   float ref_vel[hxMAXMOTOR];
+
+  /// \brief Number of valid entries in ref_vel. This number will be
+  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// ref_vel.
+  /// \sa ref_vel
+  int ref_vel_count;
 
   /// \brief Target position feedback gains (Nm/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the position gain that will be
   /// applied during the update phase of the model controller.
+  /// \sa gain_pos_count
   float gain_pos[hxMAXMOTOR];
+
+  /// \brief Number of valid entries in gain_pos. This number will be
+  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// gain_pos.
+  /// \sa gain_pos
+  int gain_pos_count;
 
   /// \brief Target velocity feedback gains (Nms/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the velocity gain that will be
   /// applied during the update phase of the model controller.
+  /// \sa gain_vel_count
   float gain_vel[hxMAXMOTOR];
+
+  /// \brief Number of valid entries in gain_vel. This number will be
+  /// truncated at hxMAXMOTOR. Use a value of 0 here to disable
+  /// gain_vel.
+  /// \sa gain_vel
+  int gain_vel_count;
 };
 
 /// \def hxCommand
@@ -329,9 +357,7 @@ hxResult hx_update(int _target,
                    const hxCommand *_command,
                    hxSensor *_sensor);
 
-/// \brief Synchronous read-only update supported by the robot.
-/// Advances simulation state and sleep for remainder of update step,
-/// or wait for physical robot to finish update.
+/// \brief Asynchronous read-only update supported by the robot.
 /// Return sensor data.
 /// \param[in] _target Device to update.
 /// \param[out] _sensor Sensor data received after the update.
