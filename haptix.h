@@ -283,7 +283,8 @@ typedef struct _hxCommand hxCommand;
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
 hxResult hx_connect(int _target);
 
-/// \brief Connect to specified robot/simulator target.
+/// \brief Connect to specified robot/simulator target. Use this function
+/// if you want to connect to a specific host and port.
 /// Multiple calls to this function are allowed with different targets.
 ///
 /// This function is not needed for use with Gazebo but added for code
