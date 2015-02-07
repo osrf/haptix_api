@@ -32,7 +32,7 @@ extern "C" {
 
 /// \brief Maximum number of contact sensors.
 /// Defines the maximum number of contact sensors across any particular
-///r obot.
+/// robot.
 /// It is used when allocating an hxSensor.contact object.
 /// The number of contact sensors for a particular robot is defined in
 /// #_hxRobotInfo.
@@ -143,6 +143,10 @@ struct _hxRobotInfo
   float updateRate;
 };
 
+/// \def hxRobotInfo
+/// \brief Robot information.
+typedef struct _hxRobotInfo hxRobotInfo;
+
 /// \brief Sensor data.
 /// This data structure specifies the sensor information gained in a simulation
 /// update.
@@ -226,6 +230,10 @@ struct _hxSensor
   float IMU_angvel[hxMAXIMU][3];
 };
 
+/// \def hxSensor
+/// \brief Sensor data.
+typedef struct _hxSensor hxSensor;
+
 /// \brief Motor command data.
 /// This data structure specifies the next request to be send to the simulated
 /// limb model.
@@ -258,14 +266,6 @@ struct _hxCommand
   /// applied during the update phase of the model controller.
   float gain_vel[hxMAXMOTOR];
 };
-
-/// \def hxRobotInfo
-/// \brief Robot information.
-typedef struct _hxRobotInfo hxRobotInfo;
-
-/// \def hxSensor
-/// \brief Sensor data.
-typedef struct _hxSensor hxSensor;
 
 /// \def hxCommand
 /// \brief Motor commands.
