@@ -104,7 +104,7 @@ struct _hxRobotInfo
   /// The number of motors is less than or equal to the number of
   /// joints. For example, one motor may control several joints through
   /// kinematic joint coupling.
-  int nmotor;
+  int motor_count;
 
   /// \brief Number of hinge joints.
   /// The joints are passive and are moved as a side effect of commanding
@@ -113,17 +113,17 @@ struct _hxRobotInfo
   ///
   /// The number of joints is greater than or equal to the number of
   /// motors.
-  int njoint;
+  int joint_count;
 
   /// \brief Number of contact sensors.
   /// A contact sensor measures the magnitude of the force on that sensor.
-  int ncontactsensor;
+  int contactsensor_count;
 
   /// \brief Number of IMUs (inertial measurement units).
   /// An IMU or inertial measurement unit measures the 3-dimensional linear
   /// acceleration vector and the 3-dimensional angular velocity vector
   /// experienced by the sensor.
-  int nIMU;
+  int IMU_count;
 
   /// \brief Minimum and maximum motor angles (rad).
   /// An m by 2 array representing the angular limits of each motor in the
