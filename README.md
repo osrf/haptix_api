@@ -1,3 +1,3 @@
-C API for Haptix project
+C and MATLAB API for HAPTIX project
 
-See header files.
+See .h and .m files.
