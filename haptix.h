@@ -299,8 +299,6 @@ typedef struct _hxCommand hxCommand;
 /// \brief Connect to specified robot/simulator target.
 /// Multiple calls to this function are allowed with different targets.
 ///
-/// This function is not needed for use with Gazebo but added for code
-/// compatibility with other simulators.
 /// \param[in] _target Device to be connected. The valid targets are defined in
 /// #hxTarget.
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
@@ -310,8 +308,6 @@ hxResult hx_connect(int _target);
 /// if you want to connect to a specific host and port.
 /// Multiple calls to this function are allowed with different targets.
 ///
-/// This function is not needed for use with Gazebo but added for code
-/// compatibility with other simulators.
 /// \param[in] _target Device to be connected. The valid targets are defined in
 /// #hxTarget.
 /// \param[in] _host When connecting to a simulator, use _host to specify
