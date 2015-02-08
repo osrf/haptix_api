@@ -55,22 +55,6 @@ typedef enum
   hxERROR
 } hxResult;
 
-/// \brief Communication targets.
-/// This enumeration specifies the possible robots (physical or simulated)
-/// that communicate over the HAPTIX API. Specifying the target may be important
-/// in case a controller has different behavior across different robots.
-typedef enum
-{
-  /// \brief DEKA physical arm
-  hxDEKA = 0,
-  /// \brief JHU APL MPL physical arm
-  hxMPL,
-  /// \brief Gazebo simulator
-  hxGAZEBO,
-  /// \brief MuJoCo simulator
-  hxMUJOCO
-} hxTarget;
-
 // ---------- data structures ----------
 
 /// \brief A representation of time
@@ -92,8 +76,7 @@ typedef struct _hxTime hxTime;
 /// do not change during simulation (for
 /// example, the number of joints in the robot arm).
 ///
-/// It can be retrieved from a communication target by calling
-/// hx_robotinfo(int, hxRobotInfo*).
+/// It can be retrieved by calling hx_robotinfo(hxRobotInfo*).
 struct _hxRobotInfo
 {
   /// \brief Number of motors.
@@ -296,12 +279,9 @@ typedef struct _hxCommand hxCommand;
 
 // ---------- API functions ----------
 
-/// \brief Connect to specified robot/simulator target. Use this function
+/// \brief Connect to a robot or simulator. Use this function
 /// if you want to connect to a specific host and port.
-/// Multiple calls to this function are allowed with different targets.
 ///
-/// \param[in] _target Device to be connected. The valid targets are defined in
-/// #hxTarget.
 /// \param[in] _host When connecting to a simulator, use _host to specify
 /// the machine that is running the simulator. Use a value of NULL to
 /// perform automatic discovery.
@@ -309,53 +289,43 @@ typedef struct _hxCommand hxCommand;
 /// what port the simulator is running on. If _host is NULL, then _port
 /// is ignored.
 /// \return 'hxOK' if the connection succeed or an error code otherwise.
-hxResult hx_connect(int _target, const char *_host, int _port);
+hxResult hx_connect(const char *_host, int _port);
 
-/// \brief Close connection to specified robot/simulator target.
+/// \brief Close connection to a robot or simulator.
 ///
-/// \param[in] _target Device to be disconnected. The valid targets are defined
-/// in #hxTarget.
 /// \return 'hxOK' if the disconnection succeed or an error code otherwise.
-hxResult hx_close(int _target);
+hxResult hx_close();
 
-/// \brief Get information for a specified robot/simulator target.
-/// \param[in] _target Requested robot. The valid targets are defined in
-/// #hxTarget.
+/// \brief Get information for a specified robot or simulator.
 /// \param[out] _robotInfo Device information requested. See #_hxRobotInfo
 /// for a list of available fields.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_robotinfo(int _target, hxRobotInfo *_robotinfo);
+hxResult hx_robotinfo(hxRobotInfo *_robotinfo);
 
 /// \brief A non-blocking function that sends a command to the robot and
 /// receives the latest sensor information. This function may be used as
 /// frequently as desired, but the robot is only guaranteed to update at
 /// a minimum of 50Hz.
-/// \param[in] _target Device to update. The valid targets are defined in
-/// #hxTarget.
 /// \param[in] _command New command to be sent. See #_hxCommand for the full
 /// description of fields contained in a command request.
 /// \param[out] _sensor Sensor data received after the update. See #_hxSensor
 /// for the full description of fields contained the state response.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_update(int _target,
-                   const hxCommand *_command,
-                   hxSensor *_sensor);
+hxResult hx_update(const hxCommand *_command, hxSensor *_sensor);
 
 /// \brief Similar to hx_update, this function reads the latest sensor
 /// information from the robot in a non-blocking manner. This function
 /// may be called as often as desired, but the robot is only guaranteeed to
 /// update at a minimum of 50Hz.
 /// Return sensor data.
-/// \param[in] _target Device to update.
 /// \param[out] _sensor Sensor data received after the update.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_readsensors(int _target, hxSensor *_sensor);
+hxResult hx_readsensors(hxSensor *_sensor);
 
 /// \brief Return a string that describes the last result.
 /// \sa hxResult.
-/// \param[in] _target Target robot.
 /// \return String that describes the last result.
-const char *hx_lastresult(hxTarget _target);
+const char *hx_lastresult();
 
 #ifdef __cplusplus
 }
