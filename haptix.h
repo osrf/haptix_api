@@ -212,6 +212,11 @@ struct _hxSensor
   /// The ordering of these IMU values is consistent with
   /// hxSensor::imu_linear_acc.
   float imu_angular_vel[hxMAXIMU][3];
+
+  /// \brief 3D orientation quaternion.
+  /// This value is set to a unit value of (0, 0, 0, 1), until the IMUs
+  /// on the hardware is known to provide an orientation estimate.
+  float imu_orientation[hxMAXIMU][4]
 };
 
 /// \def hxSensor
