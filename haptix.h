@@ -99,30 +99,30 @@ struct _hxRobotInfo
 
   /// \brief Number of contact sensors.
   /// A contact sensor measures the magnitude of the force on that sensor.
-  int contactsensor_count;
+  int contact_sensor_count;
 
   /// \brief Number of IMUs (inertial measurement units).
   /// An IMU or inertial measurement unit measures the 3-dimensional linear
   /// acceleration vector and the 3-dimensional angular velocity vector
   /// experienced by the sensor.
-  int IMU_count;
+  int imu_count;
 
   /// \brief Minimum and maximum motor angles (rad).
   /// An m by 2 array representing the angular limits of each motor in the
   /// robot, where m is the maximum number of motors. Each 1x2 row of the array
   /// corresponds to a motor. The first entry in the row is the lower limit
   /// of the motor. The second entry is the upper limit of the motor.
-  float motorlimits[hxMAXMOTOR][2];
+  float motor_limit[hxMAXMOTOR][2];
 
   /// \brief Minimum and maximum joint angles (rad).
   /// An n by 2 array representing the angular limits of each joint in the
   /// robot, where n is the maximum number of joints. Each 1x2 row of the array
   /// corresponds to a joint. The first entry in the row is the lower limit
   /// of the joint. The second entry is the upper limit of the joint.
-  float jointlimits[hxMAXJOINT][2];
+  float joint_limit[hxMAXJOINT][2];
 
   /// \brief Hz rate at which the robot will update.
-  float updateRate;
+  float update_rate;
 };
 
 /// \def hxRobotInfo
@@ -138,7 +138,7 @@ struct _hxSensor
 {
   /// \brief Timestamp.
   /// Time at which the sensor reading was taken. See #hxTime for data format.
-  hxTime timestamp;
+  hxTime time_stamp;
 
   /// \brief Motor position (rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
@@ -197,7 +197,7 @@ struct _hxSensor
   /// Entries 0 through hxRobotInfo::nimu-1 contain the acceleration vectors
   /// for each IMU.\n
   /// The ordering of these IMU values is consistent with hxSensor::IMU_angvel.
-  float IMU_linacc[hxMAXIMU][3];
+  float imu_linacc[hxMAXIMU][3];
 
   /// \brief 3D angular velocity (rad/s).
   /// An array of floats of size #hxMAXIMUx3 where each row is a 3-dimensional
@@ -209,7 +209,7 @@ struct _hxSensor
   /// for each IMU.
   ///
   /// The ordering of these IMU values is consistent with hxSensor::IMU_linacc.
-  float IMU_angvel[hxMAXIMU][3];
+  float imu_angvel[hxMAXIMU][3];
 };
 
 /// \def hxSensor
