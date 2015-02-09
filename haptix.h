@@ -214,7 +214,7 @@ struct _hxSensor
   float imu_angular_vel[hxMAXIMU][3];
 
   /// \brief 3D orientation quaternion.
-  /// This value is set to a unit value of (0, 0, 0, 1), until the IMUs
+  /// This value is set to a unit value of (1, 0, 0, 0), until the IMUs
   /// on the hardware is known to provide an orientation estimate.
   /// The expected coordinate ordering of quaternions is (w, x, y, z).
   float imu_orientation[hxMAXIMU][4]
@@ -308,7 +308,7 @@ hxResult hx_close();
 /// \param[out] _robotInfo Device information requested. See #_hxRobotInfo
 /// for a list of available fields.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_robotinfo(hxRobotInfo *_robotinfo);
+hxResult hx_robot_info(hxRobotInfo *_robotinfo);
 
 /// \brief A non-blocking function that sends a command to the robot and
 /// receives the latest sensor information. This function may be used as
@@ -328,12 +328,12 @@ hxResult hx_update(const hxCommand *_command, hxSensor *_sensor);
 /// Return sensor data.
 /// \param[out] _sensor Sensor data received after the update.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_readsensors(hxSensor *_sensor);
+hxResult hx_read_sensors(hxSensor *_sensor);
 
 /// \brief Return a string that describes the last result.
 /// \sa hxResult.
 /// \return String that describes the last result.
-const char *hx_lastresult();
+const char *hx_last_result();
 
 #ifdef __cplusplus
 }
