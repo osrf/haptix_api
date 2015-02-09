@@ -196,8 +196,9 @@ struct _hxSensor
   /// meters per second squared and ordered (x, y, z).
   /// Entries 0 through hxRobotInfo::nimu-1 contain the acceleration vectors
   /// for each IMU.\n
-  /// The ordering of these IMU values is consistent with hxSensor::IMU_angvel.
-  float imu_linacc[hxMAXIMU][3];
+  /// The ordering of these IMU values is consistent with
+  /// hxSensor::imu_angular_vel.
+  float imu_linear_acc[hxMAXIMU][3];
 
   /// \brief 3D angular velocity (rad/s).
   /// An array of floats of size #hxMAXIMUx3 where each row is a 3-dimensional
@@ -208,8 +209,9 @@ struct _hxSensor
   /// Entries 0 through hxRobotInfo::nimu-1 contain the velocity vectors
   /// for each IMU.
   ///
-  /// The ordering of these IMU values is consistent with hxSensor::IMU_linacc.
-  float imu_angvel[hxMAXIMU][3];
+  /// The ordering of these IMU values is consistent with
+  /// hxSensor::imu_linear_acc.
+  float imu_angular_vel[hxMAXIMU][3];
 };
 
 /// \def hxSensor
