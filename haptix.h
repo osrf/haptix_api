@@ -71,7 +71,7 @@ struct _hxTime
 /// \brief Time representation.
 typedef struct _hxTime hxTime;
 
-/// \brief Device information.
+/// \brief Robot information.
 /// This data structure specifies inherent properties of the robot that
 /// do not change during simulation (for
 /// example, the number of joints in the robot arm).
@@ -305,7 +305,7 @@ hxResult hx_connect(const char *_host, int _port);
 hxResult hx_close();
 
 /// \brief Get information for a specified robot or simulator.
-/// \param[out] _robotInfo Device information requested. See #_hxRobotInfo
+/// \param[out] _robotInfo Robot information requested. See #_hxRobotInfo
 /// for a list of available fields.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
 hxResult hx_robot_info(hxRobotInfo *_robotinfo);
