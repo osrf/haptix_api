@@ -248,13 +248,13 @@ struct _hxCommand
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the desired angular velocities for each
   /// motor.
-  /// \sa ref_vel_count
-  float ref_vel[hxMAXMOTOR];
+  /// \sa ref_vel_max_count
+  float ref_vel_max[hxMAXMOTOR];
 
-  /// \brief A value <= 0 disables ref_vel, any other value enables
-  /// ref_vel.
-  /// \sa ref_vel
-  int ref_vel_enabled;
+  /// \brief A value <= 0 disables ref_vel_max, any other value enables
+  /// ref_vel_max.
+  /// \sa ref_vel_max
+  int ref_vel_max_enabled;
 
   /// \brief Target position feedback gains (Nm/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
