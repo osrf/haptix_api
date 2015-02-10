@@ -61,7 +61,7 @@ struct _hxLink
   /// \brief Linear velocity (m/s)
   float linvel[3];
 
-  /// \brief Angular velocity (expmap representation)
+  /// \brief Angular velocity (rad/s)
   float angvel[3];
 
   /// \brief Linear acceleration (m/s/s)
@@ -77,16 +77,16 @@ struct _hxJoint
   /// \brief Position (radians)
   float pos;
 
-  /// \brief Velocity (m/s)
+  /// \brief Velocity (rad/s)
   float vel;
 
-  /// \brief acceleration (m/s/s)
+  /// \brief acceleration (rad/s/s)
   float acc;
 
-  /// \brief Torque due to actuation (n-m)
+  /// \brief Torque due to actuation (N-m)
   float torque_motor;
 
-  /// \brief torque due to limits, damping, friction (n-m)
+  /// \brief torque due to limits, damping, friction (N-m)
   float torque_passive;
 };
 
@@ -102,30 +102,30 @@ struct _hxContact
   /// \brief contact descriptor for contacting body 2
   int body2[hxMAXCONTACT];
 
-  /// \brief contact frame relative to global frame for the contact point
+  /// \brief Description of contact frame relative to global frame:
+  /// origin of frame
   float point[hxMAXCONTACT][3];
 
-  /// \brief contact frame relative to global frame for the contact normal
-  /// (unit vector)
+  /// \brief Description of contact frame relative to global frame:
+  /// normal direction (unit vector)
   float normal[hxMAXCONTACT][3];
 
-  /// \brief contact frame relative to global frame for the first tangent
-  /// (unit vector)
+  /// \brief Description of contact frame relative to global frame:
+  /// first tangent direction (unit vector)
   float tangent1[hxMAXCONTACT][3];
 
-  /// \brief contact frame relative to global frame for the second tangent
-  /// (unit vector)
+  /// \brief Description of contact frame relative to global frame:
+  /// second tangent direction (unit vector)
   float tangent2[hxMAXCONTACT][3];
 
-  /// \brief Normal distance in contact frame,
-  /// with axis order (normal, tangent1, tangent2)
+  /// \brief Normal distance (penetration depth) in contact frame (m).
   float distance[hxMAXCONTACT];
 
-  /// \brief Relative velocity in contact frame,
+  /// \brief Relative velocity in contact frame (m/s),
   /// with axis order (normal, tangent1, tangent2)
   float velocity[hxMAXCONTACT][3];
 
-  /// \brief Contact force in contact frame,
+  /// \brief Contact force in contact frame (N),
   /// with axis order (normal, tangent1, tangent2)
   float force[hxMAXCONTACT][3];
 };
@@ -213,7 +213,7 @@ hxResult hxs_remove_model(int _id);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_remove_model(const hxModel *_model);
 
-/// \brief Move a model.
+/// \brief Set model pose.
 /// \param[in] _id Id of the model.
 /// \param[in] _x X position in global frame (m)
 /// \param[in] _y Y position in global frame (m)
@@ -233,7 +233,7 @@ hxResult hxs_pose(int _id, float _x, float _y, float _z,
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_linear_velocity(int _id, float _vx, float _vy, float _vz);
 
-/// \brief Set the angular acceleration of a model.
+/// \brief Set the angular velocity of a model.
 /// \param[in] _id Id of the model.
 /// \param[in] _vx X velocity (rad/s)
 /// \param[in] _vy Y velocity (rad/s)
@@ -241,7 +241,7 @@ hxResult hxs_linear_velocity(int _id, float _vx, float _vy, float _vz);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_angular_velocity(int _id, float _vx, float _vy, float _vz);
 
-/// \brief Set the linear force on a model.
+/// \brief Set the linear acceleration on a model.
 /// \param[in] _id Id of the model.
 /// \param[in] _ax X acceleration (m/s/s)
 /// \param[in] _ay Y acceleration (m/s/s)
@@ -249,7 +249,7 @@ hxResult hxs_angular_velocity(int _id, float _vx, float _vy, float _vz);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_linear_accel(int _id, float _ax, float _ay, float _az);
 
-/// \brief Set the angular accel on a model.
+/// \brief Set the angular acceleration on a model.
 /// \param[in] _id Id of the model.
 /// \param[in] _ax X acceleration (rad/s/s)
 /// \param[in] _ay Y acceleration (rad/s/s)
@@ -259,17 +259,17 @@ hxResult hxs_angular_accel(int _id, float _ax, float _ay, float _az);
 
 /// \brief Apply force to a link.
 /// \param[in] _link Pointer to the link.
-/// \param[in] _ax X acceleration (n)
-/// \param[in] _ay Y acceleration (n)
-/// \param[in] _az Z acceleration (n)
+/// \param[in] _fx X force (N)
+/// \param[in] _fy Y force (N)
+/// \param[in] _fz Z force (N)
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_force(const hxLink *_link, float _fx, float _fy, float _fz);
 
 /// \brief Apply torque to a link.
 /// \param[in] _link Pointer to the link.
-/// \param[in] _ax X torque (n-m)
-/// \param[in] _ay Y torque (n-m)
-/// \param[in] _az Z torque (n-m)
+/// \param[in] _ax X torque (N-m)
+/// \param[in] _ay Y torque (N-m)
+/// \param[in] _az Z torque (N-m)
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_torque(const hxLink *_link, float _tx, float _ty, float _tz);
 
