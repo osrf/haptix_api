@@ -217,7 +217,7 @@ struct _hxSensor
   /// This value is set to a unit value of (1, 0, 0, 0), until the IMUs
   /// on the hardware is known to provide an orientation estimate.
   /// The expected coordinate ordering of quaternions is (w, x, y, z).
-  float imu_orientation[hxMAXIMU][4]
+  float imu_orientation[hxMAXIMU][4];
 };
 
 /// \def hxSensor
