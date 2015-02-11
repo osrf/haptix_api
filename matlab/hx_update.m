@@ -37,7 +37,8 @@
 %     motor_torque (float array) : An N by 1 array of motor torques (Nm).
 %     joint_pos (float array) : An M by 1 array of joint positions (rad).
 %     joint_vel (float array) : An M by 1 array of joint velocities (rad/s).
-%     imu_linear_acc (float array) : An L by 3 array of IMU accelerometer
+%     contact (float array) : An L by 1 array of contact force magnitudes (N).
+%     imu_linear_acc (float array) : A K by 3 array of IMU accelerometer
 %       data (m/s^2).  Each row is a 3-dimensional vector of accelerometer
 %       output, which comprises the vector difference (a-g), where a is the
 %       linear acceleration and g is the gravity vector.  This measurement
@@ -47,7 +48,7 @@
 %       Each row is a 3-dimensional angular velocity vector.  This measurement
 %       is expressed in a body-fixed frame.  The entries of each row are
 %       measured in radians per second and ordered (x, y, z).
-%     imu_orientation (float array) : A J by 4 array of IMU orientation data
+%     imu_orientation (float array) : A K by 4 array of IMU orientation data
 %       (quaternion).  Each row provides a 4-element quaternion representation
 %       of the estimated orientation of the corresponding IMU.  A given
 %       simulator/robot might not support this functionality.
