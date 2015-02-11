@@ -1,16 +1,14 @@
-%HX_CONNECT Connect to specified robot/simulator target
+%HX_CONNECT Connect to robot/simulator
 %
-% result = hx_connect(target)
+% hx_connect(host, port)
 %
 % This function should be called before any other HAPTIX-related functions.
 %
 % Parameters:
-%   target : The device to be connected, which should be one of the following
-%     integers:
-%       0 : DEKA limb
-%       1 : MPL limb
-%       2 : Gazebo simulation
-%       3 : MuJoCo simulation
+%   host (string) : The name/address of the simulator/robot to use.
+%   port (int) : The TCP/UDP port of the simulator/robot to use.
 %
-% Return values:
-%   result: 0 if the call was successful, 1 otherwise
+% Not all simulators/robots require the host and/or port parameters.  Use
+% empty/zero values to use automatic discovery.
+%
+% Throws an error if something failed.
