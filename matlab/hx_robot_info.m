@@ -18,7 +18,7 @@
 %       vector and the 3-dimensional angular velocity vector experienced by
 %       the sensor.
 %     motor_limit (float array) : An N by 2 array representing the angular limits of each
-%       motor in the robot, where N is the maximum number of motors. Each
+%       motor in the robot, where N is the maximum number of motors (rad). Each
 %       1x2 row of the array corresponds to a motor. The first entry in the
 %       row is the lower limit of the motor. The second entry is the upper
 %       limit of the motor.
