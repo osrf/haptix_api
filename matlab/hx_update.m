@@ -11,7 +11,7 @@
 %
 % Parameters:
 %   command: Structure with the following named fields:
-%     ref_pos (float array) : An m by 1 array of desired positions for the
+%     ref_pos (float array) : An N by 1 array of desired positions for the
 %       motors (rad).
 %     ref_pos_enabled (bool) : If true, then the values in ref_pos should be
 %       used; otherwise, they should be ignored.
