@@ -17,13 +17,13 @@
 %       measurement unit measures the 3-dimensional linear acceleration
 %       vector and the 3-dimensional angular velocity vector experienced by
 %       the sensor.
-%     motor_limit (float array) : An N by 2 (or 2 by N) array representing
+%     motor_limit (float array) : An N by 2 array representing
 %       the angular limits of each motor in the robot, where N is the maximum
 %       number of motors (rad). Each 1x2 row/column of the array corresponds to
 %       a motor. The first entry in the row/column is the lower limit of the motor.
 %       The second entry is the upper limit of the motor.
 %     joint_limit (float array) : Minimum and maximum joint angles (rad).  An M by 2
-%       (or 2 by M) array representing the angular limits of each joint in the robot,
+%       array representing the angular limits of each joint in the robot,
 %       where M is the maximum number of joints. Each 1x2 row/column of the array
 %       corresponds to a joint. The first entry in the row/column is the lower
 %       limit of the joint. The second entry is the upper limit of the joint.
