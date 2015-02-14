@@ -54,3 +54,11 @@
 %       simulator/robot might not support this functionality.
 %
 % Throws an error if something failed.
+%
+% See also HX_CLOSE, HX_CONNECT, HX_READ_SENSORS, and HX_ROBOT_INFO
+%
+% For more information, see <a href="matlab:
+% web('http://gazebosim.org/haptix')">the Gazebo HAPTIX site</a>
+% and/or
+% <a href="matlab:
+% web('http://mujoco.org/haptix.html#hxMATLAB')">the MuJoCo HAPTIX site</a>.
