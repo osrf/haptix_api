@@ -14,4 +14,11 @@
 %   sensor: See documentation for HX_UPDATE
 %
 % Throws an error if something failed.
-
+%
+% See also HX_CLOSE, HX_CONNECT, HX_ROBOT_INFO, and HX_UPDATE
+%
+% For more information, see <a href="matlab:
+% web('http://gazebosim.org/haptix')">the Gazebo HAPTIX site</a>
+% and/or
+% <a href="matlab:
+% web('http://mujoco.org/haptix.html#hxMATLAB')">the MuJoCo HAPTIX site</a>.
