@@ -5,8 +5,8 @@
   available both in simulation and on physical devices.
 */
 
-#pragma once
-
+#ifndef __HAPTIX_API_H__
+#define __HAPTIX_API_H__
 
 //-------------------------------- constants --------------------------------------------
 
@@ -121,3 +121,4 @@ hxResult hx_getrobotinfo(int target, hxRobotInfo* robotinfo);
 //      or wait for physical device to finish update
 //   3. return simulated or physical sensor data
 hxResult hx_update(int target, const hxCommand* command, hxSensor* sensor);
+#endif
