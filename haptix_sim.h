@@ -215,7 +215,7 @@ struct _hxContactPoint
 typedef struct _hxContactPoint hxContactPoint;
 
 /// \brief Information about contacts.
-struct _hxContacts
+struct _hxContactPoints
 {
   /// \brief Number of currently active contacts.
   int contactCount;
@@ -226,7 +226,7 @@ struct _hxContacts
 
 /// \def hxContact
 /// \brief Information about contacts.
-typedef struct _hxContacts hxContacts;
+typedef struct _hxContactPoints hxContactPoints;
 
 /// \brief Information about the simulation camera. This is the camera
 /// that generates the user's view.
@@ -297,7 +297,7 @@ hxResult hxs_camera_transform(const hxTransform *_transform);
 /// \brief Get information about active contacts.
 /// \param[out] _contact The latest contact information.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_contacts(hxContacts *_contact);
+hxResult hxs_contacts(hxContactPoints *_contact);
 
 /// \brief Get Jacobian of global point attached to robot link
 /// (index between 1 and njoint-1) size of Jacobian matrix is
