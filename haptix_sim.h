@@ -255,12 +255,12 @@ hxResult hxs_siminfo(hxSimInfo *_siminfo);
 /// \brief Get information about the simulation camera.
 /// \param[out] _camera Information about the simulation camera.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_get_camera_transform(hxTransform *_camera_transform);
+hxResult hxs_camera_transform(hxTransform *_transform);
 
 /// \brief Set camera transform.
 /// \param[in] _transform New camera transform.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_camera_transform(const hxTransform *_transform);
+hxResult hxs_set_camera_transform(const hxTransform *_transform);
 
 /// \brief Get information about active contacts.
 /// \param[out] _contact The latest contact information.
