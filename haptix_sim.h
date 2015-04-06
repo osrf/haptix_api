@@ -80,7 +80,7 @@ struct _hxTransform
 };
 
 /// \def hxTransform
-/// \brief A transormation that is combination of a position and
+/// \brief A transformation that is combination of a position and
 /// orientation.
 typedef struct _hxTransform hxTransform;
 
@@ -137,13 +137,12 @@ struct _hxLink
 typedef struct _hxLink hxLink;
 
 /// \brief Information about a model.
-struct _hxModel
-{
+struct _hxModel {
   /// \brief Model name.
   char *name;
 
   /// \brief The position and orientation of the model, relative to the
-  /// global coordiate frame.
+  /// global coordinate frame.
   hxTransform transform;
 
   /// \brief 1 if the model is static (immovable), 0 otherwise.
@@ -176,11 +175,11 @@ typedef struct _hxModel hxModel;
 /// \brief Information about a contact point.
 struct _hxContactPoint
 {
-  /// \brief contact descriptor for contacting body 1.
-  int body1;
+  /// \brief contact descriptor for contacting link 1.
+  int link1;
 
-  /// \brief contact descriptor for contacting body 2.
-  int body2;
+  /// \brief contact descriptor for contacting link 2.
+  int link2;
 
   /// \brief Description of contact frame relative to global frame:
   /// origin of frame.
@@ -228,19 +227,6 @@ struct _hxContactPoints
 /// \brief Information about contacts.
 typedef struct _hxContactPoints hxContactPoints;
 
-/// \brief Information about the simulation camera. This is the camera
-/// that generates the user's view.
-struct _hxCamera
-{
-  /// \brief The position and orientation of the camera, relative to the
-  /// global coordinate frame.
-  hxTransform transform;
-};
-
-/// \def hxCamera
-/// \brief Information about the simulation camera.
-typedef struct _hxCamera hxCamera;
-
 /// \brief Simulation information.
 struct _hxSimInfo
 {
@@ -253,28 +239,13 @@ struct _hxSimInfo
   hxModel models[hxMAXMODELS];
 
   /// \brief Information about the camera.
-  /// \sa hxCamera
-  hxCamera camera;
+  /// \sahxs_get_camera_transform 
+  hxTransform cameraTransform;
 };
 
 /// \def hxSimInfo
 /// \brief Information about the simulation world.
 typedef struct _hxSimInfo hxSimInfo;
-
-/// \brief Jacobian matrix.
-struct _hxJacobian
-{
-  /// \brief Number of joints in the model.
-  /// This defines the number of columns in the "jacobian" matrix.
-  int jointCount;
-
-  /// \brief 3-by-njoint matrix in row-major format.
-  /// \sa hxMAXJOINTS.
-  float mat[3][hxMAXJOINTS];
-};
-
-/// \brief Jacobian matrix.
-typedef struct _hxJacobian hxJacobian;
 
 // ---------- API functions ----------
 
@@ -285,9 +256,9 @@ typedef struct _hxJacobian hxJacobian;
 hxResult hxs_siminfo(hxSimInfo *_siminfo);
 
 /// \brief Get information about the simulation camera.
-/// \param[out[ _camera Information about the simulation camera.
+/// \param[out] _camera Information about the simulation camera.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_camera(hxCamera *_camera);
+hxResult hxs_get_camera_transform(hxTransform *_camera_transform);
 
 /// \brief Set camera transform.
 /// \param[in] _transform New camera transform.
@@ -299,16 +270,6 @@ hxResult hxs_camera_transform(const hxTransform *_transform);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_contacts(hxContactPoints *_contact);
 
-/// \brief Get Jacobian of global point attached to robot link
-/// (index between 1 and njoint-1) size of Jacobian matrix is
-/// 3-by-njoint, in row-major format.
-/// \param[in] _link Model link.
-/// \param[in] _point Point on the link.
-/// \param[out] _jacobian Resulting jacobian matrix.
-/// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_jacobian(const hxLink *_link, const hxVector3 *_point,
-                      hxJacobian *_jacobian);
-
 /// \brief Set simulation state (position and velocity) as follows:
 ///   the robot base and objects are set from hxModel
 ///   the robot links are set from hxJoint via forward kinematics
@@ -317,7 +278,7 @@ hxResult hxs_jacobian(const hxLink *_link, const hxVector3 *_point,
 /// \param[in] _model Model information to set.
 /// \param[in] _joint Joint information to set.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_state(const hxModel *_model, const hxJoint *_joint);
+hxResult hxs_state(const char *_modelName, const hxJoint *_joint);
 
 /// \brief Add model during runtime.
 /// \param[in] _urdf URDF xml description of the model.
@@ -357,32 +318,28 @@ hxResult hxs_linear_velocity(int _id, const hxVector3 *_velocity);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_angular_velocity(int _id, const hxVector3 *_velocity);
 
-/// \brief Set the linear acceleration on a model.
-/// \param[in] _id Id of the model.
-/// \param[in] _accel Acceleration (m/s/s).
-/// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_linear_accel(int _id, const hxVector3 *_accel);
-
-/// \brief Set the angular acceleration on a model.
-/// \param[in] _id Id of the model.
-/// \param[in] _accel Acceleration (rad/s/s)
-/// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_angular_accel(int _id, const hxVector3 *_accel);
-
 /// \brief Apply force to a link.
-/// \param[in] _link Pointer to the link.
+/// \param[in] _modelName Name of the model containing the link.
+/// \param[in] _linkName Name of the link.
 /// \param[in] _force Force (N).
+/// \param[in] _double Duration of the force application in seconds. Set to 0
+/// for persistent duration.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_force(const hxLink *_link, const hxVector3 *_force);
+hxResult hxs_force(const char *_modelName, const char *_linkName,
+    const hxVector3 *_force, const double _duration);
 
 /// \brief Apply torque to a link.
-/// \param[in] _link Pointer to the link.
+/// \param[in] _modelName Name of the model containing the link.
+/// \param[in] _linkName Name of the link.
 /// \param[in] _torque Torque (N-m).
+/// \param[in] _double Duration of the torque application in seconds. Set to 0
+/// for persistent duration.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_torque(const hxLink *_link, const hxVector3 *_torque);
+hxResult hxs_torque(const char *_modelName, const char *_linkName,
+    const hxVector3 *_torque, const double _duration);
 
 /// \brief Send world reset command/Carry over limb pose between world reset.
-/// \param[in] _rsetLimbPose 1 to reset the post of the limb.
+/// \param[in] _resetLimbPose Non-zero to reset the pose of the limb.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_reset(int _resetLimbPose);
 
@@ -397,6 +354,11 @@ hxResult hxs_start_timer();
 /// \brief Stop on-screen timer.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_stop_timer();
+
+/// \brief Get the state of the on-screen timer.
+/// \param[out] _time The time represented by the on-screen timer.
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_get_timer(hxTime *_time);
 
 /// \brief Start recording log file. Only one log file may be recorded at
 /// a time.
