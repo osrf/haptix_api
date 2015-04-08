@@ -173,10 +173,10 @@ typedef struct _hxModel hxModel;
 struct _hxContactPoint
 {
   /// \brief contact descriptor for contacting link 1.
-  int link1;
+  char *link1;
 
   /// \brief contact descriptor for contacting link 2.
-  int link2;
+  char *link2;
 
   /// \brief Description of contact frame relative to global frame:
   /// origin of frame.
@@ -197,16 +197,12 @@ struct _hxContactPoint
   /// \brief Normal distance (penetration depth) in contact frame (m).
   float distance;
 
-  /// \brief Relative velocity in contact frame (m/s),
-  /// with axis order (normal, tangent1, tangent2).
-  hxVector3 velocity;
-
   /// \brief Contact force in contact frame (N),
   /// with axis order (normal, tangent1, tangent2).
   hxVector3 force;
 };
 
-/// \def hxContact
+/// \def hxContactPoint
 /// \brief Information about a contact point.
 typedef struct _hxContactPoint hxContactPoint;
 
@@ -220,8 +216,8 @@ struct _hxContactPoints
   hxContactPoint contacts[hxMAXCONTACT];
 };
 
-/// \def hxContact
-/// \brief Information about contacts.
+/// \def hxContactPoints
+/// \brief Information about contacts
 typedef struct _hxContactPoints hxContactPoints;
 
 /// \brief Simulation information.
@@ -237,7 +233,7 @@ struct _hxSimInfo
 
   /// \brief Information about the camera.
   /// \sahxs_get_camera_transform 
-  hxTransform cameraTransform;
+  hxTransform camera_transform;
 };
 
 /// \def hxSimInfo
@@ -262,10 +258,11 @@ hxResult hxs_camera_transform(hxTransform *_transform);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_set_camera_transform(const hxTransform *_transform);
 
-/// \brief Get information about active contacts.
+/// \brief Get information about active contacts for a model.
+/// \param[in] _model The name of the model to query.
 /// \param[out] _contact The latest contact information.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_contacts(hxContactPoints *_contact);
+hxResult hxs_contacts(const char *_model, hxContactPoints *_contact);
 
 /// \brief Set simulation state (position and velocity) as follows:
 ///   the robot base and objects are set from hxModel
@@ -275,7 +272,7 @@ hxResult hxs_contacts(hxContactPoints *_contact);
 /// \param[in] _model Model information to set.
 /// \param[in] _joint Joint information to set.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_state(const char *_modelName, const hxJoint *_joint);
+hxResult hxs_state(const hxModel *_model, const hxJoint *_joint);
 
 /// \brief Add model during runtime.
 /// \param[in] _urdf URDF xml description of the model.
@@ -293,47 +290,47 @@ hxResult hxs_add_model(const char *_urdf, const char *_name,
   hxModel *_model);
 
 /// \brief Remove model.
-/// \param[in] _id Id of the model.
+/// \param[in] _name Name of the model.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_remove_model_id(int _id);
+hxResult hxs_remove_model_id(const char *_name);
 
 /// \brief Set model pose.
-/// \param[in] _id Id of the model.
+/// \param[in] _name Name of the model.
 /// \param[in] _transform New model transform.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_model_transform(int _id, const hxTransform *_transform);
+hxResult hxs_model_transform(const char *_name, const hxTransform *_transform);
 
 /// \brief Set the linear velocity of a model.
-/// \param[in] _id Id of the model.
+/// \param[in] _name Name of the model.
 /// \param[in] _velocity Velocity (m/s).
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_linear_velocity(int _id, const hxVector3 *_velocity);
+hxResult hxs_linear_velocity(const char *_name, const hxVector3 *_velocity);
 
 /// \brief Set the angular velocity of a model.
-/// \param[in] _id Id of the model.
+/// \param[in] _name Name of the model.
 /// \param[in] _velocity Velocity (rad/s).
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_angular_velocity(int _id, const hxVector3 *_velocity);
+hxResult hxs_angular_velocity(const char *_name, const hxVector3 *_velocity);
 
 /// \brief Apply force to a link.
 /// \param[in] _modelName Name of the model containing the link.
 /// \param[in] _linkName Name of the link.
 /// \param[in] _force Force (N).
-/// \param[in] _double Duration of the force application in seconds. Set to 0
+/// \param[in] _duration Duration of the force application in seconds. Set to 0
 /// for persistent duration.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_force(const char *_modelName, const char *_linkName,
-    const hxVector3 *_force, const double _duration);
+    const hxVector3 *_force, const float _duration);
 
 /// \brief Apply torque to a link.
 /// \param[in] _modelName Name of the model containing the link.
 /// \param[in] _linkName Name of the link.
 /// \param[in] _torque Torque (N-m).
-/// \param[in] _double Duration of the torque application in seconds. Set to 0
+/// \param[in] _duration Duration of the torque application in seconds. Set to 0
 /// for persistent duration.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_torque(const char *_modelName, const char *_linkName,
-    const hxVector3 *_torque, const double _duration);
+    const hxVector3 *_torque, const float _duration);
 
 /// \brief Send world reset command/Carry over limb pose between world reset.
 /// \param[in] _resetLimbPose Non-zero to reset the pose of the limb.
