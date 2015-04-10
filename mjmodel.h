@@ -26,7 +26,7 @@
 #define mjMAXVAL		1E+10		// maximum value in qpos, qvel, qacc
 #define mjMINMU			1E-5		// minimum friction coefficient
 #define mjMIND			1E-10		// minimum constraint mass
-#define mjMAXD			1E+10		// maximum constraint mass
+#define mjMAXD			1E+10		// maximum constraint mass 
 
 
 //---------------------------- sizes ----------------------------------------------------
