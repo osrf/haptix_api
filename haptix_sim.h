@@ -88,7 +88,7 @@ typedef struct _hxTransform hxTransform;
 struct _hxJoint
 {
   /// \brief Joint name.
-  char *name;
+  char *name = 0;
 
   /// \brief Position (radians).
   float pos;
@@ -114,7 +114,7 @@ typedef struct _hxJoint hxJoint;
 struct _hxLink
 {
   /// \brief Link name.
-  char *name;
+  char *name = 0;
 
   /// \brief The position and orientation of the link, relative to the
   /// model. Position is in meters.
@@ -139,7 +139,7 @@ typedef struct _hxLink hxLink;
 /// \brief Information about a model.
 struct _hxModel {
   /// \brief Model name.
-  char *name;
+  char *name = 0;
 
   /// \brief The position and orientation of the model, relative to the
   /// global coordinate frame.
@@ -176,10 +176,10 @@ typedef struct _hxModel hxModel;
 struct _hxContactPoint
 {
   /// \brief contact descriptor for contacting link 1.
-  char *link1;
+  char *link1 = 0;
 
   /// \brief contact descriptor for contacting link 2.
-  char *link2;
+  char *link2 = 0;
 
   /// \brief Description of contact frame relative to global frame:
   /// origin of frame.
@@ -235,7 +235,7 @@ struct _hxSimInfo
   hxModel models[hxMAXMODELS];
 
   /// \brief Information about the camera.
-  /// \sa hxs_get_camera_transform 
+  /// \sa hxs_get_camera_transform
   hxTransform camera_transform;
 };
 
@@ -282,11 +282,12 @@ hxResult hxs_set_state(const hxModel *_model);
 /// \param[in] _roll Roll in global frame (radians).
 /// \param[in] _pitch Pitch in global frame (radians).
 /// \param[in] _yaw Yaw in global frame (radians).
+/// \param[in] _gravity True if the model is affected by gravity.
 /// \param[out] _model Pointer to the new model.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_add_model(const char *_urdf, const char *_name,
   float _x, float _y, float _z, float _roll, float _pitch, float _yaw,
-  hxModel *_model);
+  bool _gravity, hxModel *_model);
 
 /// \brief Remove model.
 /// \param[in] _name Name of the model.
@@ -303,13 +304,13 @@ hxResult hxs_model_transform(const char *_name, const hxTransform *_transform);
 /// \param[in] _name Name of the model.
 /// \param[out] _gravity If true, the model is affected by gravity. If false,
 /// the model is free-floating
-hxResult hxs_model_gravity(const char *_name, bool *_gravity);
+hxResult hxs_model_gravity(const char *_name, int *_gravity);
 
 /// \brief Set whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
-/// \param[out] _gravity If true, the model is affected by gravity. If false,
+/// \param[in] _gravity If true, the model is affected by gravity. If false,
 /// the model is free-floating
-hxResult hxs_set_model_gravity(const char *_name, const bool _gravity);
+hxResult hxs_set_model_gravity(const char *_name, const int _gravity);
 
 /// \brief Set the linear velocity of a model.
 /// \param[in] _name Name of the model.
