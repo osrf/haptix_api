@@ -26,6 +26,7 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
 #include "haptix.h"
 
 // ---------- constants ----------
@@ -41,6 +42,9 @@ extern "C" {
 
 /// \brief Maximum number of models per simulation.
 #define hxMAXMODELS 50
+
+/// \brief Maximum number of models per simulation.
+#define hxMAXNAMESIZE 100
 
 // ---------- data structures ----------
 
@@ -88,7 +92,7 @@ typedef struct _hxTransform hxTransform;
 struct _hxJoint
 {
   /// \brief Joint name.
-  char *name = 0;
+  char name[hxMAXNAMESIZE];
 
   /// \brief Position (radians).
   float pos;
@@ -114,7 +118,7 @@ typedef struct _hxJoint hxJoint;
 struct _hxLink
 {
   /// \brief Link name.
-  char *name = 0;
+  char name[hxMAXNAMESIZE];
 
   /// \brief The position and orientation of the link, relative to the
   /// model. Position is in meters.
@@ -132,6 +136,7 @@ struct _hxLink
   /// \brief Angular acceleration (rad/s/s).
   hxVector3 angacc;
 };
+
 /// \def hxLink
 /// \brief Information about a link.
 typedef struct _hxLink hxLink;
@@ -139,7 +144,7 @@ typedef struct _hxLink hxLink;
 /// \brief Information about a model.
 struct _hxModel {
   /// \brief Model name.
-  char *name = 0;
+  char name[hxMAXNAMESIZE];
 
   /// \brief The position and orientation of the model, relative to the
   /// global coordinate frame.
@@ -176,33 +181,27 @@ typedef struct _hxModel hxModel;
 struct _hxContactPoint
 {
   /// \brief contact descriptor for contacting link 1.
-  char *link1 = 0;
+  char link1[hxMAXNAMESIZE];
 
   /// \brief contact descriptor for contacting link 2.
-  char *link2 = 0;
+  char link2[hxMAXNAMESIZE];
 
-  /// \brief Description of contact frame relative to global frame:
-  /// origin of frame.
+  /// \brief Description of contact frame relative to link 1 frame:
+  /// origin of contact on link 1.
   hxVector3 point;
 
-  /// \brief Description of contact frame relative to global frame:
-  /// normal direction (unit vector).
+  /// \brief Description of contact frame relative to link 1 frame:
+  /// normal direction (unit vector) of contact force on link 1.
   hxVector3 normal;
 
-  /// \brief Description of contact frame relative to global frame:
-  /// first tangent direction (unit vector).
-  hxVector3 tangent1;
-
-  /// \brief Description of contact frame relative to global frame:
-  /// second tangent direction (unit vector).
-  hxVector3 tangent2;
-
-  /// \brief Normal distance (penetration depth) in contact frame (m).
+  /// \brief Normal distance (penetration depth) in link 1 frame (m).
   float distance;
 
-  /// \brief Contact force in contact frame (N),
-  /// with axis order (normal, tangent1, tangent2).
+  /// \brief Contact force in link 1 frame (N).
   hxVector3 force;
+
+  /// \brief Contact torque in link 1 frame (N).
+  hxVector3 torque;
 };
 
 /// \def hxContactPoint
