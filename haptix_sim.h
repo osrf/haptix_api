@@ -31,19 +31,19 @@ extern "C" {
 // ---------- constants ----------
 
 /// \brief Maximum number of contacts.
-#define hxMAXCONTACT 200
+#define hxsMAXCONTACT 200
 
 /// \brief Maximum number of links per model.
-#define hxMAXLINKS 100
+#define hxsMAXLINKS 100
 
 /// \brief Maximum number of joints per model.
-#define hxMAXJOINTS 50
+#define hxsMAXJOINTS 50
 
 /// \brief Maximum number of models per simulation.
-#define hxMAXMODELS 50
+#define hxsMAXMODELS 50
 
 /// \brief Maximum number of models per simulation.
-#define hxMAXNAMESIZE 100
+#define hxsMAXNAMESIZE 100
 
 // ---------- data structures ----------
 
@@ -91,7 +91,7 @@ typedef struct _hxTransform hxTransform;
 struct _hxJoint
 {
   /// \brief Joint name.
-  char name[hxMAXNAMESIZE];
+  char name[hxsMAXNAMESIZE];
 
   /// \brief Position (radians).
   float pos;
@@ -117,7 +117,7 @@ typedef struct _hxJoint hxJoint;
 struct _hxLink
 {
   /// \brief Link name.
-  char name[hxMAXNAMESIZE];
+  char name[hxsMAXNAMESIZE];
 
   /// \brief The position and orientation of the link, relative to the
   /// model. Position is in meters.
@@ -143,7 +143,7 @@ typedef struct _hxLink hxLink;
 /// \brief Information about a model.
 struct _hxModel {
   /// \brief Model name.
-  char name[hxMAXNAMESIZE];
+  char name[hxsMAXNAMESIZE];
 
   /// \brief The position and orientation of the model, relative to the
   /// global coordinate frame.
@@ -158,7 +158,7 @@ struct _hxModel {
 
   /// \brief Array of links in the model.
   /// \sa link_count
-  hxLink links[hxMAXLINKS];
+  hxLink links[hxsMAXLINKS];
 
   /// \brief Number of joints in the model.
   /// This defines the range of elements in the "joints" array.
@@ -166,10 +166,10 @@ struct _hxModel {
 
   /// \brief Array of joints in the model.
   /// \sa joint_count
-  hxJoint joints[hxMAXJOINTS];
+  hxJoint joints[hxsMAXJOINTS];
 
   /// \brief Whether or not this model is affected by gravity.
-  bool gravity;
+  int gravity;
 };
 
 /// \def hxModel
@@ -180,10 +180,10 @@ typedef struct _hxModel hxModel;
 struct _hxContactPoint
 {
   /// \brief contact descriptor for contacting link 1.
-  char link1[hxMAXNAMESIZE];
+  char link1[hxsMAXNAMESIZE];
 
   /// \brief contact descriptor for contacting link 2.
-  char link2[hxMAXNAMESIZE];
+  char link2[hxsMAXNAMESIZE];
 
   /// \brief Description of contact frame relative to link 1 frame:
   /// origin of contact on link 1.
@@ -214,7 +214,7 @@ struct _hxContactPoints
   int contactCount;
 
   /// \brief Description of contacts.
-  hxContactPoint contacts[hxMAXCONTACT];
+  hxContactPoint contacts[hxsMAXCONTACT];
 };
 
 /// \def hxContactPoints
@@ -230,7 +230,7 @@ struct _hxSimInfo
 
   /// \brief Array of models in simulation.
   /// \sa modelCount
-  hxModel models[hxMAXMODELS];
+  hxModel models[hxsMAXMODELS];
 
   /// \brief Information about the camera.
   /// \sa hxs_get_camera_transform
@@ -272,7 +272,7 @@ hxResult hxs_contacts(const char *_model, hxContactPoints *_contact);
 hxResult hxs_set_state(const hxModel *_model);
 
 /// \brief Add model during runtime.
-/// \param[in] _urdf URDF xml description of the model.
+/// \param[in] _sdf SDF xml description of the model.
 /// \param[in] _name Model name.
 /// \param[in] _x X position in global frame (m).
 /// \param[in] _y Y position in global frame (m).
@@ -283,9 +283,9 @@ hxResult hxs_set_state(const hxModel *_model);
 /// \param[in] _gravity True if the model is affected by gravity.
 /// \param[out] _model Pointer to the new model.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_add_model(const char *_urdf, const char *_name,
+hxResult hxs_add_model(const char *_sdf, const char *_name,
   float _x, float _y, float _z, float _roll, float _pitch, float _yaw,
-  bool _gravity, hxModel *_model);
+  int _gravity, hxModel *_model);
 
 /// \brief Remove model.
 /// \param[in] _name Name of the model.
