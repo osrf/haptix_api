@@ -105,8 +105,11 @@ struct _hxJoint
   /// \brief Torque due to actuation (N-m).
   float torque_motor;
 
-  /// \brief torque due to limits, damping, friction (N-m).
-  float torque_passive;
+  /// \brief force due to external disturbances.
+  hxVector3 force_reactive;
+
+  /// \brief reaction torque due to external disturbances.
+  hxVector3 torque_reactive;
 };
 
 /// \def hxJoint
@@ -124,16 +127,16 @@ struct _hxLink
   hxTransform transform;
 
   /// \brief Linear velocity (m/s).
-  hxVector3 linvel;
+  hxVector3 lin_vel;
 
   /// \brief Angular velocity (rad/s).
-  hxVector3 angvel;
+  hxVector3 ang_vel;
 
   /// \brief Linear acceleration (m/s/s).
-  hxVector3 linacc;
+  hxVector3 lin_acc;
 
   /// \brief Angular acceleration (rad/s/s).
-  hxVector3 angacc;
+  hxVector3 ang_acc;
 };
 
 /// \def hxLink
@@ -168,8 +171,8 @@ struct _hxModel {
   /// \sa joint_count
   hxJoint joints[hxsMAXJOINTS];
 
-  /// \brief Whether or not this model is affected by gravity.
-  int gravity;
+  /// \brief 1 if the model is affected by gravity, 0 otherwise.
+  int gravity_mode;
 };
 
 /// \def hxModel
@@ -196,10 +199,10 @@ struct _hxContactPoint
   /// \brief Normal distance (penetration depth) in link 1 frame (m).
   float distance;
 
-  /// \brief Contact force in link 1 frame (N).
+  /// \brief Contact force in link 1 frame (N) at "point".
   hxVector3 force;
 
-  /// \brief Contact torque in link 1 frame (N).
+  /// \brief Contact torque in link 1 frame (N) at "point".
   hxVector3 torque;
 };
 
@@ -211,7 +214,7 @@ typedef struct _hxContactPoint hxContactPoint;
 struct _hxContactPoints
 {
   /// \brief Number of currently active contacts.
-  int contactCount;
+  int contact_count;
 
   /// \brief Description of contacts.
   hxContactPoint contacts[hxsMAXCONTACT];
@@ -226,7 +229,7 @@ struct _hxSimInfo
 {
   /// \brief Number of models in simulation.
   /// This defines the range of elements in the "models" array.
-  int modelCount;
+  int model_count;
 
   /// \brief Array of models in simulation.
   /// \sa modelCount
@@ -280,12 +283,12 @@ hxResult hxs_set_state(const hxModel *_model);
 /// \param[in] _roll Roll in global frame (radians).
 /// \param[in] _pitch Pitch in global frame (radians).
 /// \param[in] _yaw Yaw in global frame (radians).
-/// \param[in] _gravity True if the model is affected by gravity.
+/// \param[in] _gravity_mode True if the model is affected by gravity.
 /// \param[out] _model Pointer to the new model.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_add_model(const char *_sdf, const char *_name,
   float _x, float _y, float _z, float _roll, float _pitch, float _yaw,
-  int _gravity, hxModel *_model);
+  int _gravity_mode, hxModel *_model);
 
 /// \brief Remove model.
 /// \param[in] _name Name of the model.
@@ -302,13 +305,13 @@ hxResult hxs_model_transform(const char *_name, const hxTransform *_transform);
 /// \param[in] _name Name of the model.
 /// \param[out] _gravity If true, the model is affected by gravity. If false,
 /// the model is free-floating
-hxResult hxs_model_gravity(const char *_name, int *_gravity);
+hxResult hxs_model_gravity_mode(const char *_name, int *_gravity_mode);
 
 /// \brief Set whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
 /// \param[in] _gravity If true, the model is affected by gravity. If false,
 /// the model is free-floating
-hxResult hxs_set_model_gravity(const char *_name, const int _gravity);
+hxResult hxs_set_model_gravity_mode(const char *_name, const int _gravity_mode);
 
 /// \brief Set the linear velocity of a model.
 /// \param[in] _name Name of the model.
