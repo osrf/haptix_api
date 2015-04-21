@@ -87,6 +87,22 @@ struct _hxTransform
 /// orientation.
 typedef struct _hxTransform hxTransform;
 
+/// \def hxWrench
+/// \brief A force-torque pair, usually applied at a joint.
+struct _hxWrench
+{
+  /// \brief 3-dimensional force vector (Newtons).
+  hxVector3 force;
+
+  /// \brief 3-dimensional torque vector. The magnitude of the vector
+  /// represents the magnitude of the torque (in Newton meters). The direction
+  /// represents the 
+  hxVector3 torque;
+};
+
+/// \def hxWrench
+/// \brief A force-torque pair.
+typedef struct _hxWrench hxWrench;
 /// \brief information about a joint. A joint is a component of a model.
 struct _hxJoint
 {
@@ -105,7 +121,7 @@ struct _hxJoint
   /// \brief Torque due to actuation (N-m).
   float torque_motor;
 
-  /// \brief force-torque pair due to external disturbances.
+  /// \brief Force/torque pair due to external disturbances.
   hxWrench wrench_reactive;
 };
 
@@ -134,19 +150,6 @@ struct _hxLink
 
   /// \brief Angular acceleration (rad/s/s).
   hxVector3 ang_acc;
-};
-
-/// \def hxWrench
-/// \brief 
-struct _hxWrench
-{
-  /// \brief 3-dimensional force vector (Newtons).
-  hxVector3 force;
-
-  /// \brief 3-dimensional torque vector. The magnitude of the vector
-  /// represents the magnitude of the torque (in Newton meters). The direction
-  /// represents the 
-  hxVector3 torque;
 };
 
 /// \def hxLink
