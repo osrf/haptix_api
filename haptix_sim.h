@@ -268,11 +268,27 @@ hxResult hxs_set_camera_transform(const hxTransform *_transform);
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_contacts(const char *_model, hxContactPoints *_contact);
 
-/// \brief Set simulation state (position and velocity) of _model
-/// based on the joint data contained in the struct.
-/// \param[in] _model Model information to set.
+/// \brief Set simulation state (position and velocity) of joint named "_joint"
+/// in model "_model" to the desired position and velocity.
+/// \param[in] _model Name of the model to set.
+/// \param[in] _joint Name of the joint to set.
+/// \param[in] _pos Desired position of the joint.
+/// \param[in] _vel Desired velocity of the joint.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_set_state(const hxModel *_model);
+hxResult hxs_set_model_joint_state(const char *_model, const char *_joint,
+    float _pos, float _vel);
+
+/// \brief Set simulation state (position and velocity) of link named "_link"
+/// in model "_model" to the desired position and velocity.
+/// \param[in] _model Name of the model to set.
+/// \param[in] _link Name of the link to set.
+/// \param[in] _transform Desired position and orientation of the link.
+/// \param[in] _lin_vel Desired linear velocity of the link.
+/// \param[in] _ang_vel Desired angular velocity of the link.
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_set_model_link_state(const char *_model, const char *_joint,
+    const hxTransform *_transform, const hxVector3 *_lin_vel,
+    const hxVector3 *_ang_vel);
 
 /// \brief Add model during runtime.
 /// \param[in] _sdf SDF xml description of the model.
