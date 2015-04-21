@@ -105,11 +105,8 @@ struct _hxJoint
   /// \brief Torque due to actuation (N-m).
   float torque_motor;
 
-  /// \brief force due to external disturbances.
-  hxVector3 force_reactive;
-
-  /// \brief reaction torque due to external disturbances.
-  hxVector3 torque_reactive;
+  /// \brief force-torque pair due to external disturbances.
+  hxWrench wrench_reactive;
 };
 
 /// \def hxJoint
@@ -137,6 +134,19 @@ struct _hxLink
 
   /// \brief Angular acceleration (rad/s/s).
   hxVector3 ang_acc;
+};
+
+/// \def hxWrench
+/// \brief 
+struct _hxWrench
+{
+  /// \brief 3-dimensional force vector (Newtons).
+  hxVector3 force;
+
+  /// \brief 3-dimensional torque vector. The magnitude of the vector
+  /// represents the magnitude of the torque (in Newton meters). The direction
+  /// represents the 
+  hxVector3 torque;
 };
 
 /// \def hxLink
@@ -199,11 +209,8 @@ struct _hxContactPoint
   /// \brief Normal distance (penetration depth) in link 1 frame (m).
   float distance;
 
-  /// \brief Contact force in link 1 frame (N) at "point".
-  hxVector3 force;
-
-  /// \brief Contact torque in link 1 frame (N) at "point".
-  hxVector3 torque;
+  /// \brief Contact force/torque pair in link 1 frame at "point".
+  hxWrench wrench;
 };
 
 /// \def hxContactPoint
@@ -360,6 +367,16 @@ hxResult hxs_force(const char *_modelName, const char *_linkName,
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_torque(const char *_modelName, const char *_linkName,
     const hxVector3 *_torque, const float _duration);
+
+/// \brief Apply a wrench to a link.
+/// \param[in] _modelName Name of the model containing the link.
+/// \param[in] _linkName Name of the link.
+/// \param[in] _wrench Wrench to apply.
+/// \param[in] _duration Duration of the torque application in seconds. Set to 0
+/// for persistent duration.
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_wrench(const char *_modelName, const char *_linkName,
+    const hxWrench *_wrench, const float _duration);
 
 /// \brief Send world reset command/Carry over limb pose between world reset.
 /// \param[in] _resetLimbPose Non-zero to reset the pose of the limb.
