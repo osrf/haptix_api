@@ -42,7 +42,7 @@ extern "C" {
 /// \brief Maximum number of models per simulation.
 #define hxsMAXMODELS 50
 
-/// \brief Maximum number of models per simulation.
+/// \brief Maximum number of characters allowed per name.
 #define hxsMAXNAMESIZE 100
 
 // ---------- data structures ----------
@@ -96,13 +96,14 @@ struct _hxWrench
 
   /// \brief 3-dimensional torque vector. The magnitude of the vector
   /// represents the magnitude of the torque (in Newton meters). The direction
-  /// represents the 
+  /// is normal to the plane of rotation and obeys the right-hand rule.
   hxVector3 torque;
 };
 
 /// \def hxWrench
 /// \brief A force-torque pair.
 typedef struct _hxWrench hxWrench;
+
 /// \brief information about a joint. A joint is a component of a model.
 struct _hxJoint
 {
@@ -115,7 +116,7 @@ struct _hxJoint
   /// \brief Velocity (rad/s).
   float vel;
 
-  /// \brief acceleration (rad/s/s).
+  /// \brief Acceleration (rad/s/s).
   float acc;
 
   /// \brief Torque due to actuation (N-m).
@@ -157,7 +158,8 @@ struct _hxLink
 typedef struct _hxLink hxLink;
 
 /// \brief Information about a model.
-struct _hxModel {
+struct _hxModel
+{
   /// \brief Model name.
   char name[hxsMAXNAMESIZE];
 
@@ -189,16 +191,16 @@ struct _hxModel {
 };
 
 /// \def hxModel
-/// \brief Information about simulated models.
+/// \brief Information about a model.
 typedef struct _hxModel hxModel;
 
 /// \brief Information about a contact point.
 struct _hxContactPoint
 {
-  /// \brief contact descriptor for contacting link 1.
+  /// \brief Name of the first contacting link.
   char link1[hxsMAXNAMESIZE];
 
-  /// \brief contact descriptor for contacting link 2.
+  /// \brief Name of the second contacting link.
   char link2[hxsMAXNAMESIZE];
 
   /// \brief Description of contact frame relative to link 1 frame:
@@ -279,7 +281,9 @@ hxResult hxs_set_camera_transform(const hxTransform *_transform);
 hxResult hxs_contacts(const char *_model, hxContactPoints *_contact);
 
 /// \brief Set simulation state (position and velocity) of joint named "_joint"
-/// in model "_model" to the desired position and velocity.
+/// in model "_model" to the desired position and velocity. The acceleration,
+/// torque, and reaction wrench of the joint may change based on the constraints
+/// of model's dynamic system.
 /// \param[in] _model Name of the model to set.
 /// \param[in] _joint Name of the joint to set.
 /// \param[in] _pos Desired position of the joint.
@@ -289,7 +293,8 @@ hxResult hxs_set_model_joint_state(const char *_model, const char *_joint,
     float _pos, float _vel);
 
 /// \brief Set simulation state (position and velocity) of link named "_link"
-/// in model "_model" to the desired position and velocity.
+/// in model "_model" to the desired position and velocity. The link
+/// acceleration may change based on the constraints of model's dynamic system.
 /// \param[in] _model Name of the model to set.
 /// \param[in] _link Name of the link to set.
 /// \param[in] _transform Desired position and orientation of the link.
@@ -309,7 +314,7 @@ hxResult hxs_set_model_link_state(const char *_model, const char *_joint,
 /// \param[in] _roll Roll in global frame (radians).
 /// \param[in] _pitch Pitch in global frame (radians).
 /// \param[in] _yaw Yaw in global frame (radians).
-/// \param[in] _gravity_mode True if the model is affected by gravity.
+/// \param[in] _gravity_mode 1 if the model is affected by gravity, 0 otherwise.
 /// \param[out] _model Pointer to the new model.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_add_model(const char *_sdf, const char *_name,
@@ -329,13 +334,13 @@ hxResult hxs_model_transform(const char *_name, const hxTransform *_transform);
 
 /// \brief Get whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
-/// \param[out] _gravity If true, the model is affected by gravity. If false,
+/// \param[in] _gravity If 1, the model is affected by gravity. If 0,
 /// the model is free-floating
 hxResult hxs_model_gravity_mode(const char *_name, int *_gravity_mode);
 
 /// \brief Set whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
-/// \param[in] _gravity If true, the model is affected by gravity. If false,
+/// \param[in] _gravity If 1, the model is affected by gravity. If 0,
 /// the model is free-floating
 hxResult hxs_set_model_gravity_mode(const char *_name, const int _gravity_mode);
 
@@ -400,6 +405,7 @@ hxResult hxs_stop_timer();
 
 /// \brief Get the state of the on-screen timer.
 /// \param[out] _time The time represented by the on-screen timer.
+/// \sa hxTime
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_timer(hxTime *_time);
 
