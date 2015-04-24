@@ -46,7 +46,8 @@ extern "C" {
 #define hxsMAXNAMESIZE 100
 
 /// \def hxCollisionMode
-/// \sa hxs_collide_mode
+/// \sa hxs_set_model_collide_mode
+/// \sa hxs_model_collide_mode
 /// \brief The different collision modes for simulation objects.
 /// NO_COLLIDE means the object will pass through other objects, and the
 /// simulation does not know if this event occurs. hxs_contacts will not
@@ -83,7 +84,7 @@ struct _hxColor
   float alpha;
 };
 
-/// \def hxColor 
+/// \def hxColor
 /// \brief A 4-tupe representing a color in RGBA space.
 /// r, g, b are numbers between 0 and 1 representing the red, green, and blue
 /// levels, and alpha is a number between 0 and 1 representing the transparency
@@ -100,8 +101,7 @@ struct _hxQuaternion
 };
 
 /// \def hxQuaternion
-/// \brief A quaternion that is used to represent a rotation or
-/// orientation.
+/// \brief A quaternion that is used to represent a rotation or orientation.
 typedef struct _hxQuaternion hxQuaternion;
 
 /// \brief A translation and orientation constructed of a hxVector3 and
@@ -113,8 +113,7 @@ struct _hxTransform
 };
 
 /// \def hxTransform
-/// \brief A transformation that is combination of a position and
-/// orientation.
+/// \brief A transformation that is combination of a position and orientation.
 typedef struct _hxTransform hxTransform;
 
 /// \def hxWrench
@@ -134,7 +133,7 @@ struct _hxWrench
 /// \brief A force-torque pair.
 typedef struct _hxWrench hxWrench;
 
-/// \brief information about a joint. A joint is a component of a model.
+/// \brief Information about a joint. A joint is a component of a model.
 struct _hxJoint
 {
   /// \brief Joint name.
@@ -166,8 +165,8 @@ struct _hxLink
   /// \brief Link name.
   char name[hxsMAXNAMESIZE];
 
-  /// \brief The position and orientation of the link, relative to the
-  /// model. Position is in meters.
+  /// \brief The position and orientation of the link, relative to the model.
+  /// Position is in meters.
   hxTransform transform;
 
   /// \brief Linear velocity (m/s).
@@ -263,7 +262,7 @@ struct _hxContactPoints
 };
 
 /// \def hxContactPoints
-/// \brief Information about contacts
+/// \brief Information about contacts.
 typedef struct _hxContactPoints hxContactPoints;
 
 /// \brief Simulation information.
@@ -331,7 +330,7 @@ hxResult hxs_set_model_joint_state(const char *_model, const char *_joint,
 /// \param[in] _lin_vel Desired linear velocity of the link.
 /// \param[in] _ang_vel Desired angular velocity of the link.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_set_model_link_state(const char *_model, const char *_joint,
+hxResult hxs_set_model_link_state(const char *_model, const char *_link,
     const hxTransform *_transform, const hxVector3 *_lin_vel,
     const hxVector3 *_ang_vel);
 
@@ -365,13 +364,13 @@ hxResult hxs_model_transform(const char *_name, const hxTransform *_transform);
 /// \brief Get whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
 /// \param[in] _gravity If 1, the model is affected by gravity. If 0,
-/// the model is free-floating
+/// the model is free-floating.
 hxResult hxs_model_gravity_mode(const char *_name, int *_gravity_mode);
 
 /// \brief Set whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
 /// \param[in] _gravity If 1, the model is affected by gravity. If 0,
-/// the model is free-floating
+/// the model is free-floating.
 hxResult hxs_set_model_gravity_mode(const char *_name, const int _gravity_mode);
 
 /// \brief Set the linear velocity of a model.
@@ -456,14 +455,14 @@ hxResult hxs_stop_logging();
 
 /// \brief Set the color of the model.
 /// \param[in] _model Name of the model.
-/// \param[in] The color to set.
+/// \param[in] _color The color to set.
 /// \sa hxColor
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_set_model_color(const char *_model, const hxColor *_color);
 
 /// \brief Get the color of the model.
 /// \param[in] _model Name of the model.
-/// \param[out] The color of the model.
+/// \param[out] _color The color of the model.
 /// \sa hxColor
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_model_color(const char *_model, hxColor *_color);
@@ -474,7 +473,7 @@ hxResult hxs_model_color(const char *_model, hxColor *_color);
 /// \sa hxCollisionMode
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_set_model_collide_mode(const char *_model,
-    hxCollisionMode _collide_mode);
+    const hxCollisionMode *_collide_mode);
 
 /// \brief Get the collide mode of the object.
 /// \param[in] _model Name of the model.
