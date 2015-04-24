@@ -45,6 +45,20 @@ extern "C" {
 /// \brief Maximum number of characters allowed per name.
 #define hxsMAXNAMESIZE 100
 
+/// \def hxCollisionMode
+/// \sa hxs_collide_mode
+/// \brief The different collision modes for simulation objects.
+/// NO_COLLIDE means the object will pass through other objects, and the
+/// simulation does not know if this event occurs. hxs_contacts will not
+/// generate contact points.
+/// DETECTION_ONLY means that the object will pass through other objects, and
+/// the simulation will detect when the object collides. hxs_contacts will
+/// generate contact points when this happens, but the force and torque values
+/// of the hxContactPoint struct will be invalid.
+/// COLLIDE means that the object will obey the laws of physics and the
+/// simulation will generate forces when it collides with other objects.
+typedef enum {NO_COLLIDE, DETECTION_ONLY, COLLIDE} hxCollisionMode;
+
 // ---------- data structures ----------
 
 /// \brief A three-tuple vector.
@@ -59,6 +73,22 @@ struct _hxVector3
 /// \brief A three-tuple that is commonly used to represent a position or
 /// translation.
 typedef struct _hxVector3 hxVector3;
+
+/// \brief A 4-tupe representing a color in RGBA space.
+struct _hxColor
+{
+  float r;
+  float g;
+  float b;
+  float alpha;
+};
+
+/// \def hxColor 
+/// \brief A 4-tupe representing a color in RGBA space.
+/// r, g, b are numbers between 0 and 1 representing the red, green, and blue
+/// levels, and alpha is a number between 0 and 1 representing the transparency
+/// (0 is invisible, 1 is opaque).
+typedef struct _hxColor hxColor;
 
 /// \brief A quaternion.
 struct _hxQuaternion
@@ -423,6 +453,36 @@ hxResult hxs_is_logging(int *_result);
 /// \brief Stop recording log file.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_stop_logging();
+
+/// \brief Set the color of the model.
+/// \param[in] _model Name of the model.
+/// \param[in] The color to set.
+/// \sa hxColor
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_set_model_color(const char *_model, const hxColor *_color);
+
+/// \brief Get the color of the model.
+/// \param[in] _model Name of the model.
+/// \param[out] The color of the model.
+/// \sa hxColor
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_model_color(const char *_model, hxColor *_color);
+
+/// \brief Set the collide mode of the object.
+/// \param[in] _model Name of the model.
+/// \param[in] _collide_mode The collide mode of the object.
+/// \sa hxCollisionMode
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_set_model_collide_mode(const char *_model,
+    hxCollisionMode _collide_mode);
+
+/// \brief Get the collide mode of the object.
+/// \param[in] _model Name of the model.
+/// \param[out] _collide_mode The collide mode of the object.
+/// \sa hxCollisionMode
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_model_collide_mode(const char *_model,
+    hxCollisionMode *_collide_mode);
 
 #ifdef __cplusplus
 }
