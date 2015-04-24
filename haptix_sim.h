@@ -101,8 +101,7 @@ struct _hxQuaternion
 };
 
 /// \def hxQuaternion
-/// \brief A quaternion that is used to represent a rotation or
-/// orientation.
+/// \brief A quaternion that is used to represent a rotation or orientation.
 typedef struct _hxQuaternion hxQuaternion;
 
 /// \brief A translation and orientation constructed of a hxVector3 and
@@ -114,8 +113,7 @@ struct _hxTransform
 };
 
 /// \def hxTransform
-/// \brief A transformation that is combination of a position and
-/// orientation.
+/// \brief A transformation that is combination of a position and orientation.
 typedef struct _hxTransform hxTransform;
 
 /// \def hxWrench
@@ -135,7 +133,7 @@ struct _hxWrench
 /// \brief A force-torque pair.
 typedef struct _hxWrench hxWrench;
 
-/// \brief information about a joint. A joint is a component of a model.
+/// \brief Information about a joint. A joint is a component of a model.
 struct _hxJoint
 {
   /// \brief Joint name.
@@ -167,8 +165,8 @@ struct _hxLink
   /// \brief Link name.
   char name[hxsMAXNAMESIZE];
 
-  /// \brief The position and orientation of the link, relative to the
-  /// model. Position is in meters.
+  /// \brief The position and orientation of the link, relative to the model.
+  /// Position is in meters.
   hxTransform transform;
 
   /// \brief Linear velocity (m/s).
@@ -264,7 +262,7 @@ struct _hxContactPoints
 };
 
 /// \def hxContactPoints
-/// \brief Information about contacts
+/// \brief Information about contacts.
 typedef struct _hxContactPoints hxContactPoints;
 
 /// \brief Simulation information.
@@ -332,7 +330,7 @@ hxResult hxs_set_model_joint_state(const char *_model, const char *_joint,
 /// \param[in] _lin_vel Desired linear velocity of the link.
 /// \param[in] _ang_vel Desired angular velocity of the link.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_set_model_link_state(const char *_model, const char *_joint,
+hxResult hxs_set_model_link_state(const char *_model, const char *_link,
     const hxTransform *_transform, const hxVector3 *_lin_vel,
     const hxVector3 *_ang_vel);
 
@@ -366,13 +364,13 @@ hxResult hxs_model_transform(const char *_name, const hxTransform *_transform);
 /// \brief Get whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
 /// \param[in] _gravity If 1, the model is affected by gravity. If 0,
-/// the model is free-floating
+/// the model is free-floating.
 hxResult hxs_model_gravity_mode(const char *_name, int *_gravity_mode);
 
 /// \brief Set whether or not this model is affected by gravity.
 /// \param[in] _name Name of the model.
 /// \param[in] _gravity If 1, the model is affected by gravity. If 0,
-/// the model is free-floating
+/// the model is free-floating.
 hxResult hxs_set_model_gravity_mode(const char *_name, const int _gravity_mode);
 
 /// \brief Set the linear velocity of a model.
