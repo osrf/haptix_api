@@ -46,7 +46,8 @@ extern "C" {
 #define hxsMAXNAMESIZE 100
 
 /// \def hxCollisionMode
-/// \sa hxs_collide_mode
+/// \sa hxs_set_model_collide_mode
+/// \sa hxs_model_collide_mode
 /// \brief The different collision modes for simulation objects.
 /// NO_COLLIDE means the object will pass through other objects, and the
 /// simulation does not know if this event occurs. hxs_contacts will not
@@ -83,7 +84,7 @@ struct _hxColor
   float alpha;
 };
 
-/// \def hxColor 
+/// \def hxColor
 /// \brief A 4-tupe representing a color in RGBA space.
 /// r, g, b are numbers between 0 and 1 representing the red, green, and blue
 /// levels, and alpha is a number between 0 and 1 representing the transparency
@@ -456,14 +457,14 @@ hxResult hxs_stop_logging();
 
 /// \brief Set the color of the model.
 /// \param[in] _model Name of the model.
-/// \param[in] The color to set.
+/// \param[in] _color The color to set.
 /// \sa hxColor
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_set_model_color(const char *_model, const hxColor *_color);
 
 /// \brief Get the color of the model.
 /// \param[in] _model Name of the model.
-/// \param[out] The color of the model.
+/// \param[out] _color The color of the model.
 /// \sa hxColor
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_model_color(const char *_model, hxColor *_color);
@@ -474,7 +475,7 @@ hxResult hxs_model_color(const char *_model, hxColor *_color);
 /// \sa hxCollisionMode
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_set_model_collide_mode(const char *_model,
-    hxCollisionMode _collide_mode);
+    const hxCollisionMode *_collide_mode);
 
 /// \brief Get the collide mode of the object.
 /// \param[in] _model Name of the model.
