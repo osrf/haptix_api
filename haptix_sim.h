@@ -75,7 +75,7 @@ struct _hxVector3
 /// translation.
 typedef struct _hxVector3 hxVector3;
 
-/// \brief A 4-tupe representing a color in RGBA space.
+/// \brief A 4-tuple representing a color in RGBA space.
 struct _hxColor
 {
   float r;
@@ -85,7 +85,7 @@ struct _hxColor
 };
 
 /// \def hxColor
-/// \brief A 4-tupe representing a color in RGBA space.
+/// \brief A 4-tuple representing a color in RGBA space.
 /// r, g, b are numbers between 0 and 1 representing the red, green, and blue
 /// levels, and alpha is a number between 0 and 1 representing the transparency
 /// (0 is invisible, 1 is opaque).
