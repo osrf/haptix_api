@@ -58,7 +58,7 @@ extern "C" {
 /// of the hxContactPoint struct will be invalid.
 /// COLLIDE means that the object will obey the laws of physics and the
 /// simulation will generate forces when it collides with other objects.
-typedef enum {NO_COLLIDE, DETECTION_ONLY, COLLIDE} hxCollisionMode;
+typedef enum {hxsNOCOLLIDE, hxsDETECTIONONLY, hxsCOLLIDE} hxCollisionMode;
 
 // ---------- data structures ----------
 
