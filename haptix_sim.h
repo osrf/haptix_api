@@ -347,8 +347,8 @@ hxResult hxs_set_model_link_state(const char *_model, const char *_link,
 /// \param[out] _model Pointer to the new model.
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_add_model(const char *_sdf, const char *_name,
-  float _x, float _y, float _z, float _roll, float _pitch, float _yaw,
-  int _gravity_mode, hxsModel *_model);
+    float _x, float _y, float _z, float _roll, float _pitch, float _yaw,
+    int _gravity_mode, hxsModel *_model);
 
 /// \brief Remove model.
 /// \param[in] _name Name of the model.
@@ -385,7 +385,7 @@ hxResult hxs_set_model_gravity_mode(const char *_name, const int _gravity_mode);
 /// \param[in] _name Name of the model.
 /// \param[out] _velocity Velocity (m/s).
 /// \return 'hxOK' if the function succeed or an error code otherwise.
-hxResult hxs_linear_velocity(const char *_name, hxsVector3 *_velocity)
+hxResult hxs_linear_velocity(const char *_name, hxsVector3 *_velocity);
 
 /// \brief Set the linear velocity of a model.
 /// \param[in] _name Name of the model.
@@ -394,12 +394,18 @@ hxResult hxs_linear_velocity(const char *_name, hxsVector3 *_velocity)
 hxResult hxs_set_linear_velocity(const char *_name,
     const hxsVector3 *_velocity);
 
+/// \brief Get the angular velocity of a model.
+/// \param[in] _name Name of the model.
+/// \param[out] _ang_vel Velocity (rad/s).
+/// \return 'hxOK' if the function succeed or an error code otherwise.
+hxResult hxs_angular_velocity(const char *_name, hxsVector3 *_ang_vel);
+
 /// \brief Set the angular velocity of a model.
 /// \param[in] _name Name of the model.
-/// \param[in] _velocity Velocity (rad/s).
+/// \param[in] _ang_vel Velocity (rad/s).
 /// \return 'hxOK' if the function succeed or an error code otherwise.
 hxResult hxs_set_angular_velocity(const char *_name,
-    const hxsVector3 *_velocity);
+  const hxsVector3 *_ang_vel);
 
 /// \brief Apply force to a link.
 /// \param[in] _modelName Name of the model containing the link.
