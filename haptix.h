@@ -71,17 +71,17 @@ struct _hxTime
 /// \brief Time representation.
 typedef struct _hxTime hxTime;
 
-/// \brief Device information.
+/// \brief Robot information.
 /// This data structure specifies inherent properties of the robot that
 /// do not change during simulation (for
 /// example, the number of joints in the robot arm).
 ///
-/// It can be retrieved by calling hx_robotinfo(hxRobotInfo*).
+/// It can be retrieved by calling hx_robot_info(hxRobotInfo*).
 struct _hxRobotInfo
 {
   /// \brief Number of motors.
   /// Motors are commanded through filling an hxCommand struct and calling
-  /// hx_update(int, const hxCommand*, hxSensor*).
+  /// hx_update(const hxCommand*, hxSensor*).
   ///
   /// The number of motors is less than or equal to the number of
   /// joints. For example, one motor may control several joints through
@@ -133,7 +133,7 @@ typedef struct _hxRobotInfo hxRobotInfo;
 /// This data structure specifies the sensor information gained in a simulation
 /// update.
 /// It is an output of the function
-/// hx_update(int, const hxCommand*, hxSensor*).
+/// hx_update(const hxCommand*, hxSensor*).
 struct _hxSensor
 {
   /// \brief Timestamp.
@@ -147,7 +147,7 @@ struct _hxSensor
   /// motor-related properties of #hxSensor.
   ///
   /// These values cannot exceed the minimum and maximum values specified in
-  /// hxRobotInfo::limit.
+  /// hxRobotInfo::motor_limit.
   float motor_pos[hxMAXMOTOR];
 
   /// \brief Motor velocity (rad/s).
@@ -214,9 +214,10 @@ struct _hxSensor
   float imu_angular_vel[hxMAXIMU][3];
 
   /// \brief 3D orientation quaternion.
-  /// This value is set to a unit value of (0, 0, 0, 1), until the IMUs
+  /// This value is set to a unit value of (1, 0, 0, 0), until the IMUs
   /// on the hardware is known to provide an orientation estimate.
-  float imu_orientation[hxMAXIMU][4]
+  /// The expected coordinate ordering of quaternions is (w, x, y, z).
+  float imu_orientation[hxMAXIMU][4];
 };
 
 /// \def hxSensor
@@ -228,7 +229,7 @@ typedef struct _hxSensor hxSensor;
 /// limb model.
 ///
 /// It is an input of the function
-/// hx_update(int, const hxCommand*, hxSensor*).
+/// hx_update(const hxCommand*, hxSensor*).
 struct _hxCommand
 {
   /// \brief Target reference positions (rad).
@@ -247,13 +248,13 @@ struct _hxCommand
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
   /// hxRobotInfo::nmotors-1 contain the desired angular velocities for each
   /// motor.
-  /// \sa ref_vel_count
-  float ref_vel[hxMAXMOTOR];
+  /// \sa ref_vel_max_count
+  float ref_vel_max[hxMAXMOTOR];
 
-  /// \brief A value <= 0 disables ref_vel, any other value enables
-  /// ref_vel.
-  /// \sa ref_vel
-  int ref_vel_enabled;
+  /// \brief A value <= 0 disables ref_vel_max, any other value enables
+  /// ref_vel_max.
+  /// \sa ref_vel_max
+  int ref_vel_max_enabled;
 
   /// \brief Target position feedback gains (Nm/rad).
   /// An array of floats of size #hxMAXMOTOR. Entries 0 through
@@ -304,10 +305,10 @@ hxResult hx_connect(const char *_host, int _port);
 hxResult hx_close();
 
 /// \brief Get information for a specified robot or simulator.
-/// \param[out] _robotInfo Device information requested. See #_hxRobotInfo
+/// \param[out] _robotInfo Robot information requested. See #_hxRobotInfo
 /// for a list of available fields.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_robotinfo(hxRobotInfo *_robotinfo);
+hxResult hx_robot_info(hxRobotInfo *_robotinfo);
 
 /// \brief A non-blocking function that sends a command to the robot and
 /// receives the latest sensor information. This function may be used as
@@ -327,12 +328,12 @@ hxResult hx_update(const hxCommand *_command, hxSensor *_sensor);
 /// Return sensor data.
 /// \param[out] _sensor Sensor data received after the update.
 /// \return 'hxOK' if the operation succeed or an error code otherwise.
-hxResult hx_readsensors(hxSensor *_sensor);
+hxResult hx_read_sensors(hxSensor *_sensor);
 
 /// \brief Return a string that describes the last result.
 /// \sa hxResult.
 /// \return String that describes the last result.
-const char *hx_lastresult();
+const char *hx_last_result();
 
 #ifdef __cplusplus
 }
