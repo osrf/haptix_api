@@ -335,6 +335,10 @@ hxResult hx_read_sensors(hxSensor *_sensor);
 /// \return String that describes the last result.
 const char *hx_last_result();
 
+/// \brief Returns a double representing time in seconds.
+/// \return Returns a double representing time in seconds.
+double hx_double_time(const hxTime *_ptime);
+
 #ifdef __cplusplus
 }
 #endif
